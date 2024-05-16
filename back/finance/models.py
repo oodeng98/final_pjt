@@ -16,4 +16,3 @@ class User_Product(models.Model):
   product = models.ForeignKey("Product", on_delete=models.CASCADE)
   balance = models.IntegerField()
   created_at = models.DateTimeField(auto_now_add=True)
-  
