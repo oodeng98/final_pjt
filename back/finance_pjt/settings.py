@@ -54,6 +54,12 @@ INSTALLED_APPS = [
 
 SITE_ID = 1
 
+CORS_ALLOWED_ORIGINS = [
+    'http://127.0.0.1:5173',
+    'http://localhost:5173',
+]
+
+
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 REST_FRAMEWORK = {
@@ -76,6 +82,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'allauth.account.middleware.AccountMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+
 ]
 
 ROOT_URLCONF = 'finance_pjt.urls'
