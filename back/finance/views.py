@@ -34,8 +34,8 @@ def exchange_rate(request):
         serializer = ExchangerateSerializer(data, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-
-def save():
+@api_view(['GET'])
+def save(request):
   params = {
     'auth': settings.FINANCE_API_KEY,
     'topFinGrpNo': '020000',
@@ -71,11 +71,10 @@ def save():
       )
       if not ans:
         product.save()
-
+  
 
 @api_view(['GET'])
 def get_product(request):
-  save()
   products = Product.objects.all()
   serializers = ProductListSerializer(products, many=True)
   return Response(serializers.data)
