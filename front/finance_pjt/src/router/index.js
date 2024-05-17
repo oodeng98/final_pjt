@@ -1,14 +1,14 @@
 import { createRouter, createWebHistory } from "vue-router";
-import HomeView from '@/views/HomeView'
-import ProductView from '@/views/ProductView'
-import ProductDetailView from '@/views/ProductDetailView'
-import ExchangeRateView from '@/views/ExchangeRateView'
-import MapView from '@/views/MapView'
-import CommunityView from '@/views/CommunityView'
-import CommunityDetailView from '@/views/CommunityDetailView'
-import LoginView from '@/views/LoginView'
-import SignUpView from '@/views/SignUpView'
-import ProfileView from '@/views/ProfileView'
+import HomeView from '../views/HomeView.vue'
+import ProductView from '../views/ProductView.vue'
+import ProductDetailView from '../views/ProductDetailView.vue'
+import ExchangeRateView from '../views/ExchangeRateView.vue'
+import MapView from '../views/MapView.vue'
+import CommunityView from '../views/CommunityView.vue'
+import CommunityDetailView from '../views/CommunityDetailView.vue'
+import LoginView from '../views/LoginView.vue'
+import SignUpView from '../views/SignUpView.vue'
+import ProfileView from '../views/ProfileView.vue'
 
 
 const router = createRouter({
