@@ -48,29 +48,59 @@ def save(request):
     response = requests.get(
       url=API_URL,
       params=params
-    ).json().get('result').get('optionList')
+    ).json().get('result').get('baseList')
   
     for res in response:
       product = Product(
         category=idx,
+        dcls_month = res.get('dcls_month'),
         fin_co_no = res.get('fin_co_no'),
+        kor_co_nm = res.get('kor_co_nm'),
         fin_prdt_cd = res.get('fin_prdt_cd'),
-        intr_rate_type = res.get('intr_rate_type'),
-        save_trm = res.get('save_trm'),
-        intr_rate = res.get('intr_rate'),
-        intr_rate2 = res.get('intr_rate2'),
+        fin_prdt_nm = res.get('fin_prdt_nm'),
+        join_way = res.get('join_way'),
+        spcl_cnd = res.get('spcl_cnd'),
+        join_deny = res.get('join_deny'),
+        join_member = res.get('join_member'),
         )
-      ans = Product.objects.filter(
+    
+    ans = Product.objects.filter(
         category=idx,
+        dcls_month = res.get('dcls_month'),
         fin_co_no = res.get('fin_co_no'),
+        kor_co_nm = res.get('kor_co_nm'),
         fin_prdt_cd = res.get('fin_prdt_cd'),
-        intr_rate_type = res.get('intr_rate_type'),
-        save_trm = res.get('save_trm'),
-        intr_rate = res.get('intr_rate'),
-        intr_rate2 = res.get('intr_rate2'),
-      )
-      if not ans:
-        product.save()
+        fin_prdt_nm = res.get('fin_prdt_nm'),
+        join_way = res.get('join_way'),
+        spcl_cnd = res.get('spcl_cnd'),
+        join_deny = res.get('join_deny'),
+        join_member = res.get('join_member'),
+        )
+    if not ans:
+      product.save()
+    
+  for idx, category in enumerate(['deposit', 'saving']):
+    API_URL = f'http://finlife.fss.or.kr/finlifeapi/{category}ProductsSearch.json'
+    
+    response = requests.get(
+      url=API_URL,
+      params=params
+    ).json().get('result').get('optionList')
+  
+    for res in response:
+      product = Product.objects.filter(
+        category=idx,
+        dcls_month = res.get('dcls_month'),
+        fin_co_no = res.get('fin_co_no'),
+        fin_prdt_cd = res.get('fin_prdt_cd')
+      )[0]
+      product.intr_rate_type = res.get('intr_rate_type')
+      product.intr_rate_type_nm = res.get('intr_rate_type_nm')
+      product.save_trm = res.get('save_trm')
+      product.intr_rate = res.get('intr_rate')
+      product.intr_rate2 = res.get('intr_rate2')
+      product.save()
+  return Response(res)
   
 
 @api_view(['GET'])

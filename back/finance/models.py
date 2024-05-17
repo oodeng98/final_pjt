@@ -16,15 +16,21 @@ class Exchangerate(models.Model):
 
 class Product(models.Model):
   category = models.IntegerField()  # 0은 예금, 1은 적금
-  fin_co_no = models.TextField()
-  # kor_co_nm = models.TextField()
-  fin_prdt_cd = models.TextField()
-  # fin_prdt_nm = models.TextField()
-  intr_rate_type = models.TextField()
-  save_trm = models.TextField()
-  intr_rate = models.IntegerField()
-  intr_rate2 = models.IntegerField()
+  dcls_month = models.TextField()  # 공시 제출월(option)
+  fin_co_no = models.TextField()  # 금융회사 코드(option)
+  kor_co_nm = models.TextField()  # 금융회사 명
+  fin_prdt_cd = models.TextField()  # 금융상품 코드(option)
+  fin_prdt_nm = models.TextField()  # 금융상품 명
+  join_way = models.TextField()  # 가입 방법
+  spcl_cnd = models.TextField()  # 우대조건
+  join_deny = models.TextField()  # 가입제한
+  join_member = models.TextField()  # 가입대상
 
+  intr_rate_type = models.TextField(null=True)  # 저축 금리 유형
+  intr_rate_type_nm = models.TextField(null=True)  # 저축 금리 유형명
+  save_trm = models.TextField(null=True)  # 저축 기간
+  intr_rate = models.IntegerField(null=True)  # 저축 금리
+  intr_rate2 = models.IntegerField(null=True)  # 최고 우대 금리
 
 class User_Product(models.Model):
   user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
