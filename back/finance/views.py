@@ -64,20 +64,20 @@ def save(request):
         join_member = res.get('join_member'),
         )
     
-    ans = Product.objects.filter(
-        category=idx,
-        dcls_month = res.get('dcls_month'),
-        fin_co_no = res.get('fin_co_no'),
-        kor_co_nm = res.get('kor_co_nm'),
-        fin_prdt_cd = res.get('fin_prdt_cd'),
-        fin_prdt_nm = res.get('fin_prdt_nm'),
-        join_way = res.get('join_way'),
-        spcl_cnd = res.get('spcl_cnd'),
-        join_deny = res.get('join_deny'),
-        join_member = res.get('join_member'),
-        )
-    if not ans:
-      product.save()
+      ans = Product.objects.filter(
+          category=idx,
+          dcls_month = res.get('dcls_month'),
+          fin_co_no = res.get('fin_co_no'),
+          kor_co_nm = res.get('kor_co_nm'),
+          fin_prdt_cd = res.get('fin_prdt_cd'),
+          fin_prdt_nm = res.get('fin_prdt_nm'),
+          join_way = res.get('join_way'),
+          spcl_cnd = res.get('spcl_cnd'),
+          join_deny = res.get('join_deny'),
+          join_member = res.get('join_member'),
+          )
+      if not ans:
+        product.save()
     
   for idx, category in enumerate(['deposit', 'saving']):
     API_URL = f'http://finlife.fss.or.kr/finlifeapi/{category}ProductsSearch.json'
