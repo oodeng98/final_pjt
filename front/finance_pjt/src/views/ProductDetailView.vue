@@ -1,9 +1,10 @@
 <template>
   <div>
-    <h1 v-if="category === '0'">정기예금 상세</h1>
+    <h1 v-if="category === 'depoist'">정기예금 상세</h1>
     <h1 v-else>정기적금 상세</h1>
-    <div v-for="p in product">
-    {{ p }}</div>
+    <div v-for="info in product">
+      {{ info }}
+    </div>
   </div>
 </template>
 
@@ -19,7 +20,7 @@ const store = useFinanceStore()
 const product = ref([])
 
 onMounted(() => {
-  if (category === '0') {
+  if (category === 'deposit') {
     product.value = store.deposits.filter((element) => element.id == product_id)
   } else {
     product.value = store.savings.filter((element) => element.id == product_id)
