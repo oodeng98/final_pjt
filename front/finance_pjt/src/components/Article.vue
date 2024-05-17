@@ -1,8 +1,19 @@
 <script setup>
+import { useCommunityStore } from "@/stores/community.js";
+import { useRouter } from "vue-router";
+
+const store = useCommunityStore();
+const router = useRouter();
 const props = defineProps({
   article: Object,
 });
-import Comment from "./Comment.vue";
+
+const detail = () => {
+  router.push({
+    name: "communityDetail",
+    params: { article_id: props.article.id },
+  });
+};
 </script>
 
 <template>
@@ -10,14 +21,7 @@ import Comment from "./Comment.vue";
   <p>내용 : {{ article.content }}</p>
   <p>작성자 : {{ article.user.username }}</p>
   <p>작성일자 : {{ article.created_at }}</p>
-  <p>수정일자 : {{ article.updated_at }}</p>
-  <!-- <p>{{ article }}</p> -->
-  <Comment
-    v-for="(comment, idx) in article.comment_set"
-    :key="comment.id"
-    :comment="comment"
-    :idx="idx"
-  />
+  <button @click="detail">디테일</button>
 </template>
 
 <style scoped></style>
