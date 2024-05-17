@@ -7,21 +7,44 @@ export const useFinanceStore = defineStore("finance", () => {
 
   const deposits = ref([])
   const savings = ref([])
+
+  const periods = [1, 3, 6, 12, 24, 36]
+  const depositBanks = ref([])
+  const savingBanks = ref([])
   const getProducts = function () {
     axios({
       method: 'get',
       url: `${BASE_URL}/finance/products/get_product/`,
     })
       .then(res => {
-        for (const data of res.data) {
-          if (data.category === 0) {
-            deposits.value.push(data)
+        let i = 0
+        while (i < res.data.length) {
+          if (res.data[i].category === 0) {
+            depositBanks.value.push(res.data[i].kor_co_nm)
+            const deposit = ref(res.data[i])
+            const rates = ref([])
+            for (let j=0; j<6; j++) {
+              rates.value.push(res.data[i].intr_rate)
+              rates.value.push(res.data[i].intr_rate2)
+              i++
+            }
+            deposit.value.rates = rates.value
+            deposits.value.push(deposit.value)
           } else {
-            savings.value.push(data)
+            savingBanks.value.push(res.data[i].kor_co_nm)
+            const saving = ref(res.data[i])
+            const rates = ref([])
+            for (let j=0; j<6; j++) {
+              rates.value.push(res.data[i].intr_rate)
+              rates.value.push(res.data[i].intr_rate2)
+              i++
+            }
+            saving.value.rates = rates.value
+            savings.value.push(saving.value)
           }
         }
       })
       .catch(err => console.log(err))
   }
-  return { getProducts, deposits, savings };
+  return { getProducts, deposits, savings, periods, depositBanks, savingBanks };
 }, { persist: true });

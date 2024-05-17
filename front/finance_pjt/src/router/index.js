@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from '../views/HomeView.vue'
 import ProductView from '../views/ProductView.vue'
+import DepositView from '../views/DepositView.vue'
+import SavingView from "@/views/SavingView.vue";
 import ProductDetailView from '../views/ProductDetailView.vue'
 import ExchangeRateView from '../views/ExchangeRateView.vue'
 import MapView from '../views/MapView.vue'
@@ -22,15 +24,20 @@ const router = createRouter({
       component: HomeView
     },
     {
-      path: '/product',
-      name: 'product',
-      component: ProductView
+      path: '/products',
+      name: 'products',
+      component: ProductView,
+      children: [
+        { path: 'deposit', name: "deposit", component: DepositView },
+        { path: 'saving', name: "saving", component: SavingView },
+        { path: ':category/:product_id', name: 'productDetail', component: ProductDetailView }
+      ]
     },
-    {
-      path: '/product/:category/:product_id',
-      name: 'productDetail',
-      component: ProductDetailView
-    },
+    // {
+    //   path: '/product/:category/:product_id',
+    //   name: 'productDetail',
+    //   component: ProductDetailView
+    // },
     {
       path: '/exchange-rate',
       name: 'exchangeRate',
