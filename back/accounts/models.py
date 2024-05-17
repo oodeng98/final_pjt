@@ -4,8 +4,7 @@ from django.conf import settings
 
 # Create your models here.
 class User(AbstractUser):
-    nickname = models.CharField(max_length=16)
-
+    nickname = models.CharField(max_length=16, blank=True)
 
 class Following(models.Model):
     followers = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='followers')
