@@ -1,9 +1,23 @@
 <template>
   <div>
     <h1>Home</h1>
+    <RouterLink :to="{ name: 'product' }">[Product]</RouterLink>
+    <RouterView />
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { RouterLink, RouterView } from 'vue-router'
+import { onMounted } from 'vue'
+import { useFinanceStore } from '@/stores/finance'
 
-<style scoped></style>
+const store = useFinanceStore()
+
+onMounted(() => {
+  store.getProduct()
+})
+</script>
+
+<style scoped>
+
+</style>
