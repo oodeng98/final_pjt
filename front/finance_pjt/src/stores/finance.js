@@ -7,7 +7,7 @@ export const useFinanceStore = defineStore("finance", () => {
 
   const deposits = ref([])
   const savings = ref([])
-  const getProduct = function () {
+  const getProducts = function () {
     axios({
       method: 'get',
       url: `${BASE_URL}/finance/products/get_product/`,
@@ -23,5 +23,5 @@ export const useFinanceStore = defineStore("finance", () => {
       })
       .catch(err => console.log(err))
   }
-  return { getProduct, deposits, savings };
+  return { getProducts, deposits, savings };
 }, { persist: true });
