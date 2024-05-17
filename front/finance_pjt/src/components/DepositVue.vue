@@ -5,7 +5,9 @@
 </template>
 
 <script setup>
-
+defineProps({
+    products: Array
+})
 </script>
 
 <style scoped>

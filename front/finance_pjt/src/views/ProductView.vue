@@ -17,7 +17,7 @@ import DepositVue from '@/components/DepositVue.vue';
 const store = useFinanceStore()
 const products = ref(store.deposits)
 
-const 
+
 
 
 </script>
