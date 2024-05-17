@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>SignIn Page</h1>
+    <h1>Log In Page</h1>
     <form @submit.prevent="logIn">
       <p>
         <label for="username">username : </label>
@@ -16,7 +16,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import { useCommunityStore } from "../stores/community";
 import { useRouter } from "vue-router";
 
@@ -30,8 +30,11 @@ const logIn = () => {
     password: password.value,
   };
   store.logIn(payload);
-  // router.push({ name: "home" });
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.error-message {
+  color: red;
+}
+</style>

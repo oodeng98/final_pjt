@@ -12,7 +12,8 @@ from django.shortcuts import get_object_or_404, get_list_or_404
 @api_view(['GET', 'POST'])
 def article(request):
     if request.method == 'GET': # all article list
-        articles = get_list_or_404(Article)
+        # articles = get_list_or_404(Article)
+        articles = Article.objects.all()
         serializers = ArticleSerializer(articles, many=True)
         return Response(serializers.data)
     elif request.method=='POST': # make article

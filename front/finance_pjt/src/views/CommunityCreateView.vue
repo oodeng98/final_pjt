@@ -38,7 +38,7 @@ const createArticle = function () {
     <label for="content">내용 : </label>
     <input type="text" id="content" v-model="content" />
 
-    <button @submit.prevent="submitData">create</button>
+    <button type="submit">create</button>
   </form>
 </template>
 

@@ -6,6 +6,7 @@ import router from '../router'
 
 export const useCommunityStore = defineStore("community", () => {
   const token = ref(null)
+  const userInfo = ref(null)
 
   const signUp = (payload) => {
     const {username, password1, password2} = payload
@@ -32,10 +33,24 @@ export const useCommunityStore = defineStore("community", () => {
       }
     }).then(res=>{
       console.log('signed In')
-      // console.log(res.data)
       token.value = res.data.key
+      getUserInfo()
       router.push({name:'community'})
-    }).catch(err=> console.log(err))
+    }).catch(err=> {
+      console.log(err)
+    })
+  }
+
+  const getUserInfo = () => {
+    axios({
+      method:'get',
+      url:'http://127.0.0.1:8000/accounts/user/',
+      headers: {
+        Authorization: `Token ${token.value}`,
+      },
+    }).then(res=>{
+      userInfo.value = res.data
+    })
   }
 
   const logOut = () => {
@@ -45,9 +60,12 @@ export const useCommunityStore = defineStore("community", () => {
     }).then(res=>{
       console.log(res, 'log out')
       token.value = null
-      router.push({name:'community'})
+      userInfo.value =null
+      router.go(0)
     }).catch(err=> console.log(err))
   }
 
-  return { signUp, logIn, logOut, token  };
+  const isLogin = computed(() => token.value? true : false)
+
+  return { signUp, logIn, logOut, token, isLogin, userInfo  };
 }, { persist: true });

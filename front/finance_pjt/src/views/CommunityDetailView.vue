@@ -9,6 +9,7 @@
     <p>수정일자 : {{ article.updated_at }}</p>
     <p>
       <button @click="deleteArticle">글 삭제</button>
+      <button @click="updateArticle">글 수정</button>
     </p>
     <form @submit.prevent="createComment">
       <label for="content">댓글 작성 : </label>
@@ -79,6 +80,13 @@ const createComment = () => {
       router.go(0);
     })
     .catch((err) => console.log(err));
+};
+
+const updateArticle = () => {
+  router.push({
+    name: "communityUpdate",
+    params: { article_id: article.value.id },
+  });
 };
 </script>
 

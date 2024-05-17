@@ -7,6 +7,7 @@ import MapView from '../views/MapView.vue'
 import CommunityView from '../views/CommunityView.vue'
 import CommunityCreateView from '../views/CommunityCreateView.vue'
 import CommunityDetailView from '../views/CommunityDetailView.vue'
+import CommunityUpdateView from '../views/CommunityUpdateView.vue'
 import LoginView from '../views/LoginView.vue'
 import SignUpView from '../views/SignUpView.vue'
 import ProfileView from '../views/ProfileView.vue'
@@ -56,6 +57,11 @@ const router = createRouter({
       component: CommunityDetailView
     },
     {
+      path: '/community/:article_id/update',
+      name: 'communityUpdate',
+      component: CommunityUpdateView
+    },
+    {
       path: '/accounts/login',
       name: 'logIn',
       component: LoginView
@@ -70,15 +76,23 @@ const router = createRouter({
       name: 'profile',
       component: ProfileView
     },
-    // {
-    //   path: '/about',
-    //   name: 'about',
-    //   // route level code-splitting
-    //   // this generates a separate chunk (About.[hash].js) for this route
-    //   // which is lazy-loaded when the route is visited.
-    //   component: () => import('../views/AboutView.vue')
-    // }
   ],
 });
+
+import { useCommunityStore } from '@/stores/community'
+
+
+router.beforeEach((to, from) => {
+  const store = useCommunityStore()
+  // 인증되지 않은 사용자는 메인 페이지에 접근 할 수 없음
+  if (!(to.name === 'logIn' || to.name === 'signUp' || to.name === 'home') && store.isLogin === false) {
+    return { name: 'logIn' }
+  }
+
+  // 인증된 사용자는 회원가입과 로그인 페이지에 접근 할 수 없음
+  if ((to.name === 'logIn' || to.name === 'signUp') && (store.isLogin === true)) {
+    return { name: 'home' }
+  }
+})
 
 export default router;

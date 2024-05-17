@@ -18,6 +18,7 @@
 <script setup>
 import { RouterLink, RouterView } from "vue-router";
 import { useCommunityStore } from "./stores/community.js";
+import { ref, computed } from "vue";
 
 const store = useCommunityStore();
 const logOut = () => {
