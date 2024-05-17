@@ -1,7 +1,11 @@
 <template>
   <div>test</div>
+  <RouterView />
+  
 </template>
 
-<script setup></script>
+<script setup>
+import { RouterLink, RouterView } from 'vue-router'
+</script>
 
 <style scoped></style>
