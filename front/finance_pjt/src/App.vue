@@ -10,6 +10,7 @@
     <RouterLink :to="{ name: 'profile', params: { user_id: 1 } }"
       >My Page</RouterLink
     >
+    | <RouterLink :to="{ name: 'map' }">Map</RouterLink> |
     <RouterView />
   </div>
 </template>
