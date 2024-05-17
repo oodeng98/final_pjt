@@ -5,6 +5,7 @@ import ProductDetailView from '../views/ProductDetailView.vue'
 import ExchangeRateView from '../views/ExchangeRateView.vue'
 import MapView from '../views/MapView.vue'
 import CommunityView from '../views/CommunityView.vue'
+import CommunityCreateView from '../views/CommunityCreateView.vue'
 import CommunityDetailView from '../views/CommunityDetailView.vue'
 import LoginView from '../views/LoginView.vue'
 import SignUpView from '../views/SignUpView.vue'
@@ -43,6 +44,11 @@ const router = createRouter({
       path: '/community',
       name: 'community',
       component: CommunityView
+    },
+    {
+      path: '/community/create',
+      name: 'communityCreate',
+      component: CommunityCreateView
     },
     {
       path: '/community/:article_id',
