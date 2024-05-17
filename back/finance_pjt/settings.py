@@ -170,3 +170,4 @@ environ.Env.read_env(
     env_file=os.path.join(BASE_DIR, '.env')
 )
 FINANCE_API_KEY = env('FINANCE_API_KEY')
+EXCHANGE_RATE_API_KEY = env('EXCHANGE_RATE_API_KEY')

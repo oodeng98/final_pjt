@@ -13,6 +13,7 @@ class Exchangerate(models.Model):
   ttb = models.FloatField()
   tts = models.FloatField()
 
+
 class Product(models.Model):
   category = models.IntegerField()  # 0은 예금, 1은 적금
   fin_co_no = models.TextField()
@@ -23,6 +24,7 @@ class Product(models.Model):
   save_trm = models.TextField()
   intr_rate = models.IntegerField()
   intr_rate2 = models.IntegerField()
+
 
 class User_Product(models.Model):
   user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)

@@ -15,10 +15,11 @@ from .serializers import ProductListSerializer
 def exchange_rate(request):
     if request.method == 'GET':
         URL = 'https://www.koreaexim.go.kr/site/program/financial/exchangeJSON'
+        API_KEY = settings.EXCHANGE_RATE_API_KEY
         res = requests.get(
             url=URL, 
             params={
-                'authkey': 'voy59yWzqPBxQQBkmToyj9CjZMfaIOHG', 
+                'authkey': API_KEY,  
                 'data': 'AP01'
             }
         )
@@ -32,6 +33,7 @@ def exchange_rate(request):
                 info[key] = float(info[key])
         serializer = ExchangerateSerializer(data, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
 
 def save():
   params = {
