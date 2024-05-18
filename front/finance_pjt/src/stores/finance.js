@@ -1,5 +1,5 @@
-import { ref, computed } from "vue";
-import { defineStore } from "pinia";
+import { ref, computed } from "vue"
+import { defineStore } from "pinia"
 import axios from 'axios'
 
 export const useFinanceStore = defineStore("finance", () => {
@@ -11,6 +11,7 @@ export const useFinanceStore = defineStore("finance", () => {
   const periods = [1, 3, 6, 12, 24, 36]
   const depositBanks = ref([])
   const savingBanks = ref([])
+  
   const getProducts = function () {
     axios({
       method: 'get',
@@ -20,7 +21,9 @@ export const useFinanceStore = defineStore("finance", () => {
         let i = 0
         while (i < res.data.length) {
           if (res.data[i].category === 0) {
-            depositBanks.value.push(res.data[i].kor_co_nm)
+            if (!depositBanks.value.includes(res.data[i].kor_co_nm)) {
+              depositBanks.value.push(res.data[i].kor_co_nm)
+            }
             const deposit = ref(res.data[i])
             const rates = ref([])
             for (let j=0; j<6; j++) {
@@ -31,7 +34,9 @@ export const useFinanceStore = defineStore("finance", () => {
             deposit.value.rates = rates.value
             deposits.value.push(deposit.value)
           } else {
-            savingBanks.value.push(res.data[i].kor_co_nm)
+            if (!savingBanks.value.includes(res.data[i].kor_co_nm)) {
+              savingBanks.value.push(res.data[i].kor_co_nm)
+            }
             const saving = ref(res.data[i])
             const rates = ref([])
             for (let j=0; j<6; j++) {
@@ -47,4 +52,4 @@ export const useFinanceStore = defineStore("finance", () => {
       .catch(err => console.log(err))
   }
   return { getProducts, deposits, savings, periods, depositBanks, savingBanks };
-}, { persist: true });
+}, { persist: true })

@@ -1,8 +1,8 @@
-import { createRouter, createWebHistory } from "vue-router";
+import { createRouter, createWebHistory } from "vue-router"
 import HomeView from '../views/HomeView.vue'
 import ProductView from '../views/ProductView.vue'
 import DepositView from '../views/DepositView.vue'
-import SavingView from "@/views/SavingView.vue";
+import SavingView from "@/views/SavingView.vue"
 import ProductDetailView from '../views/ProductDetailView.vue'
 import ExchangeRateView from '../views/ExchangeRateView.vue'
 import MapView from '../views/MapView.vue'
@@ -14,6 +14,7 @@ import LoginView from '../views/LoginView.vue'
 import SignUpView from '../views/SignUpView.vue'
 import ProfileView from '../views/ProfileView.vue'
 
+import { useCommunityStore } from '@/stores/community'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -33,11 +34,6 @@ const router = createRouter({
         { path: ':category/:product_id', name: 'productDetail', component: ProductDetailView }
       ]
     },
-    // {
-    //   path: '/product/:category/:product_id',
-    //   name: 'productDetail',
-    //   component: ProductDetailView
-    // },
     {
       path: '/exchange-rate',
       name: 'exchangeRate',
@@ -84,10 +80,7 @@ const router = createRouter({
       component: ProfileView
     },
   ],
-});
-
-import { useCommunityStore } from '@/stores/community'
-
+})
 
 router.beforeEach((to, from) => {
   const store = useCommunityStore()

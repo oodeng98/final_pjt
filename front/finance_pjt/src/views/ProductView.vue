@@ -1,14 +1,15 @@
 <template>
-    <div>
-        <RouterLink :to="{ name: 'deposit' }">정기예금</RouterLink> | 
-        <RouterLink :to="{ name: 'saving' }">정기적금</RouterLink>
-        <RouterView />
-    </div>
-  </template>
-  
+  <div>
+    <RouterLink :to="{ name: 'deposit' }">정기예금</RouterLink> |
+    <RouterLink :to="{ name: 'saving' }">정기적금</RouterLink>
+    <RouterView />
+  </div>
+</template>
+
 <script setup>
-import { ref, onMounted } from 'vue'
+import { onMounted } from 'vue'
 import { RouterLink, RouterView } from 'vue-router'
+
 import { useFinanceStore } from '@/stores/finance'
 
 const store = useFinanceStore()
@@ -18,9 +19,6 @@ onMounted(() => {
     store.getProducts()
   }
 })
-
 </script>
-  
-<style scoped>
-  
-</style>
+
+<style scoped></style>
