@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from .serializers import ArticleSerializer, CommentSerializer
-from .models import Article, Comment
+from .serializers import ArticleSerializer, CommentSerializer, ArticleLikesSerializer, CommentLikesSerializer
+from .models import Article, Comment, Article_Likes, Comment_Likes
 from rest_framework import status
 from django.shortcuts import get_object_or_404, get_list_or_404
 
@@ -58,3 +58,51 @@ def comment_detail(request, article_id, comment_id):
     elif request.method == 'DELETE':
         comment.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+@api_view(['GET', 'POST'])
+def article_like(request, article_id): # 게시글 좋아요 정보 + 좋아요 했는지 여부 반환
+    likes = Article_Likes.objects.filter(article_id=article_id)
+    user = request.user
+    if likes.filter(user=user).exists():
+        hasLiked = True
+    else:
+        hasLiked = False
+    if request.method=='GET':
+        serializer = ArticleLikesSerializer(likes,many=True)
+        return Response({'likes':serializer.data, 'hasLiked': hasLiked})
+    if request.method == 'POST':
+        # user가 좋아요 했으면 좋아요 취소
+        # 없으면 좋아요 추가
+        if hasLiked:
+            likes.filter(user=user).delete()
+            likes = Article_Likes.objects.filter(article_id=article_id)
+            serializer = ArticleLikesSerializer(likes,many=True)
+            return Response({'likes':serializer.data, 'hasLiked': False}) 
+        else:
+            Article_Likes.objects.create(article_id=article_id, user=user)
+            likes = Article_Likes.objects.filter(article_id=article_id)
+            serializer = ArticleLikesSerializer(likes,many=True)
+            return Response({'likes':serializer.data, 'hasLiked': True}) 
+        
+@api_view(['GET', 'POST'])
+def comment_like(request, article_id, comment_id):
+    likes = Comment_Likes.objects.filter(comment_id=comment_id)
+    user = request.user
+    if likes.filter(user=user).exists():
+        hasLiked = True
+    else:
+        hasLiked = False
+    if request.method=='GET':
+        serializer = CommentLikesSerializer(likes,many=True)
+        return Response({'likes':serializer.data, 'hasLiked': hasLiked})
+    if request.method == 'POST':
+        if hasLiked:
+            likes.filter(user=user).delete()
+            likes = Comment_Likes.objects.filter(comment_id=comment_id)
+            serializer = CommentLikesSerializer(likes,many=True)
+            return Response({'likes':serializer.data, 'hasLiked': False}) 
+        else:
+            Comment_Likes.objects.create(comment_id=comment_id, user=user)
+            likes = Comment_Likes.objects.filter(comment_id=comment_id)
+            serializer = CommentLikesSerializer(likes,many=True)
+            return Response({'likes':serializer.data, 'hasLiked': True}) 
