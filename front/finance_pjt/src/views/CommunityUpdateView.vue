@@ -45,7 +45,6 @@ const updateArticle = function () {
 <template>
   <h1>게시글 수정</h1>
   <div class="container" v-if="article">
-    <p>{{ article }}</p>
     <form @submit.prevent="updateArticle">
       <label for="title">제목 : </label>
       <input type="text" id="title" v-model="article.title" />
