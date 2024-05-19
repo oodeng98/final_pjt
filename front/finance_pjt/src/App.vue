@@ -6,7 +6,7 @@
     <button @click="logOut">logOut</button> |
     <RouterLink :to="{ name: 'signUp' }">signUp</RouterLink> |
     <RouterLink :to="{ name: 'exchangeRate' }">환율 계산기</RouterLink> |
-    <RouterLink :to="{ name: 'deposit' }">Product</RouterLink> |
+    <RouterLink :to="{ name: 'products' }">Product</RouterLink> |
     <RouterLink :to="{ name: 'profile', params: { user_id: 1 } }">My Page</RouterLink> |
     <RouterLink :to="{ name: 'map' }">Map</RouterLink> |
     <RouterView />
@@ -14,14 +14,14 @@
 </template>
 
 <script setup>
-import { RouterLink, RouterView } from "vue-router";
-import { useCommunityStore } from "./stores/community.js";
-import { ref, computed } from "vue";
+import { RouterLink, RouterView } from "vue-router"
+import { useCommunityStore } from "./stores/community.js"
 
-const store = useCommunityStore();
+const store = useCommunityStore()
+
 const logOut = () => {
-  store.logOut();
-};
+  store.logOut()
+}
 </script>
 
 <style scoped></style>
