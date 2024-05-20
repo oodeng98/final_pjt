@@ -10,7 +10,6 @@ const likes = ref(null); // 좋아요 정보
 const hasLiked = ref(null); // 좋아요 했는지
 
 onMounted(() => {
-  console.log("comment onMounted");
   axios({
     // 좋아요 했는지 검사
     method: "GET",
@@ -20,8 +19,6 @@ onMounted(() => {
     },
   })
     .then((res) => {
-      console.log(res.data);
-      // like.value = res.data;
       likes.value = res.data.likes;
       hasLiked.value = res.data.hasLiked;
     })
@@ -72,7 +69,9 @@ const likeComment = () => {
     <p v-if="likes">좋아요 : {{ likes.length }}</p>
     <button v-if="!hasLiked" @click="likeComment">좋아요</button>
     <button v-else @click="likeComment">좋아요 취소</button>
-    <button @click="deleteComment">댓글 삭제</button>
+    <button v-if="comment.user.id === store.userInfo.pk" @click="deleteComment">
+      댓글 삭제
+    </button>
   </div>
 </template>
 

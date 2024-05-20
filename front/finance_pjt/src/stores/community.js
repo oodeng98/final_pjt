@@ -9,12 +9,12 @@ export const useCommunityStore = defineStore("community", () => {
   const userInfo = ref(null)
 
   const signUp = (payload) => {
-    const {username, password1, password2} = payload
+    const {username, password1, password2, email ,first_name,last_name} = payload
     axios({
       method:'post',
       url:`http://127.0.0.1:8000/accounts/signup/`,
       data:{
-        username, password1, password2
+        username, password1, password2 , email ,first_name,last_name
       }
     }).then(res=>{
       console.log('signed up')

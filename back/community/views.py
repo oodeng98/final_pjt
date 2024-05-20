@@ -12,7 +12,6 @@ from django.shortcuts import get_object_or_404, get_list_or_404
 @api_view(['GET', 'POST'])
 def article(request):
     if request.method == 'GET': # all article list
-        # articles = get_list_or_404(Article)
         articles = Article.objects.all()
         serializers = ArticleSerializer(articles, many=True)
         return Response(serializers.data)
@@ -29,13 +28,16 @@ def article_detail(request, article_id):
         serializers = ArticleSerializer(article)
         return Response(serializers.data)
     elif request.method == 'PUT': # update
-        serializer = ArticleSerializer(article, data=request.data, partial=True)
-        if serializer.is_valid(raise_exception=True):
-            serializer.save() 
-            return Response(serializer.data, status=status.HTTP_200_OK)
+        if request.user == article.user:
+            serializer = ArticleSerializer(article, data=request.data, partial=True)
+            if serializer.is_valid(raise_exception=True):
+                serializer.save() 
+                return Response(serializer.data, status=status.HTTP_200_OK)
     elif request.method=='DELETE': # delete
-        article.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        if request.user == article.user:
+            article.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+    return Response({'message':'disallowed'})
 
 @api_view(['POST'])
 def comment(request, article_id): # create comment
@@ -51,13 +53,16 @@ def comment_detail(request, article_id, comment_id):
     article = get_object_or_404(Article, pk=article_id)
     comment = get_object_or_404(Comment, pk=comment_id)
     if request.method == 'PUT':
-        serializer = CommentSerializer(comment, data=request.data, partial=True)
-        if serializer.is_valid(raise_exception=True):
-            serializer.save() 
-            return Response(serializer.data, status=status.HTTP_200_OK)
+        if request.user == comment.user:
+            serializer = CommentSerializer(comment, data=request.data, partial=True)
+            if serializer.is_valid(raise_exception=True):
+                serializer.save() 
+                return Response(serializer.data, status=status.HTTP_200_OK)
     elif request.method == 'DELETE':
-        comment.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        if request.user == comment.user:
+            comment.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+    return Response({'message':'disallowed'})
 
 @api_view(['GET', 'POST'])
 def article_like(request, article_id): # 게시글 좋아요 정보 + 좋아요 했는지 여부 반환

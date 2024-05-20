@@ -21,6 +21,7 @@ const detail = () => {
   <p>내용 : {{ article.content }}</p>
   <p>작성자 : {{ article.user.username }}</p>
   <p>작성일자 : {{ article.created_at }}</p>
+  <p>좋아요 : {{ article.article_likes_set.length }}</p>
   <button @click="detail">디테일</button>
 </template>
 
