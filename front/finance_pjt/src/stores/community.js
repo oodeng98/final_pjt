@@ -7,20 +7,66 @@ import router from '../router'
 export const useCommunityStore = defineStore("community", () => {
   const token = ref(null)
   const userInfo = ref(null)
+  const userPk = ref(null) // export 안하는중
 
-  const signUp = (payload) => {
-    const {username, password1, password2, email ,first_name,last_name} = payload
-    axios({
+  const signUp = async (payload) => {
+    const {username, password1, password2, 
+      first_name, last_name, email, nickname } = payload
+    await axios({
       method:'post',
       url:`http://127.0.0.1:8000/accounts/signup/`,
       data:{
-        username, password1, password2 , email ,first_name,last_name
+        username, password1, password2
       }
     }).then(res=>{
-      console.log('signed up')
-      const password = password1
-      logIn({username, password})
-    }).catch(err=> console.log(err))
+      console.log('signed up!')
+      // logIn({username, password:password1})
+    })
+    .catch(err=> console.log(err))
+    
+    // login
+    await axios({
+      method:'post',
+      url:`http://127.0.0.1:8000/accounts/login/`,
+      data:{
+        username, password:password1
+      }
+    }).then(res=>{
+      token.value = res.data.key
+      // getUserPk()
+    }).catch(err=> {
+      console.log(err)
+    })
+
+    // get userPk
+    await axios({
+      method:'get',
+      url:'http://127.0.0.1:8000/accounts/user/',
+      headers: {
+        Authorization: `Token ${token.value}`,
+      },
+    }).then(res=>{
+      userPk.value = res.data.pk
+    })
+
+    // detail
+    await axios({
+      method:'put',
+      url:`http://127.0.0.1:8000/accounts/${userPk.value}/`,
+      headers: {
+        Authorization: `Token ${token.value}`,
+      },
+      data: {
+        first_name, last_name, email, nickname
+      }
+    }).then(res=>{
+      console.log('detail update!')
+      console.log(res)
+    }).catch(err=>console.log(err))
+
+    getUserInfo()
+    await router.push({name:'community'})
+
   }
 
   const logIn = (payload) => {
@@ -32,19 +78,31 @@ export const useCommunityStore = defineStore("community", () => {
         username, password
       }
     }).then(res=>{
-      console.log('signed In')
       token.value = res.data.key
-      getUserInfo()
+      getUserPk()
       router.push({name:'community'})
     }).catch(err=> {
       console.log(err)
     })
   }
 
-  const getUserInfo = () => {
+  const getUserPk = () => {
     axios({
       method:'get',
       url:'http://127.0.0.1:8000/accounts/user/',
+      headers: {
+        Authorization: `Token ${token.value}`,
+      },
+    }).then(res=>{
+      userPk.value = res.data.pk
+      getUserInfo()
+    })
+  }
+
+  const getUserInfo = () => {
+    axios({
+      method:'get',
+      url:`http://127.0.0.1:8000/accounts/${userPk.value}/`,
       headers: {
         Authorization: `Token ${token.value}`,
       },

@@ -19,6 +19,10 @@
         <input type="email" v-model="email" />
       </p>
       <p>
+        <label for="nickname">nickname : </label>
+        <input type="text" v-model="nickname" />
+      </p>
+      <p>
         <label for="first_name">first_name : </label>
         <input type="text" v-model="first_name" />
       </p>
@@ -42,6 +46,8 @@ const password2 = ref(null);
 const email = ref(null);
 const first_name = ref(null);
 const last_name = ref(null);
+const nickname = ref(null);
+
 const store = useCommunityStore();
 const router = useRouter();
 const signUp = () => {
@@ -52,10 +58,10 @@ const signUp = () => {
     email: email.value,
     first_name: first_name.value,
     last_name: last_name.value,
+    nickname: nickname.value,
   };
+
   store.signUp(payload);
-  // console.log("signed up!!");
-  // router.push({ name: "home" });
 };
 </script>
 
