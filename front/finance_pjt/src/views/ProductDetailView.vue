@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>{{ category }}</h1>
-    <button @click="subscribe">{{comment}}</button>
+    <button v-if="communityStore.token" @click="subscribe">{{ comment }}</button>
     {{ product[0] }}
   </div>
 </template>
@@ -12,10 +12,10 @@ import { useRoute } from 'vue-router'
 import axios from 'axios'
 
 import { useFinanceStore } from '@/stores/finance'
-import { useCommunityStore} from '@/stores/community'
+import { useCommunityStore } from '@/stores/community'
 import router from '@/router'
 
-const store = useFinanceStore()
+const financeStore = useFinanceStore()
 const communityStore = useCommunityStore()
 
 const route = useRoute()
@@ -28,31 +28,31 @@ const comment = ref('가입하기')
 let isSubscribe = true
 
 onMounted(() => {
-  product.value = store.deposits.filter((element) => element.id == product_id)
+  product.value = financeStore.deposits.filter((element) => element.id == product_id)
   category.value = '정기예금 상세'
   if (product.value.length === 0) {
-    product.value = store.savings.filter((element) => element.id == product_id)
+    product.value = financeStore.savings.filter((element) => element.id == product_id)
     category.value = '정기적금 상세'
   }
 
   axios({
     method: 'get',
-    url: `${store.BASE_URL}/finance/products/subscribe/`,
+    url: `${financeStore.BASE_URL}/finance/products/subscribe/`,
     params: {
       product: product_id
-    }, 
-    headers:{
+    },
+    headers: {
       Authorization: `Token ${communityStore.token}`
     }
   })
     .then(res => {
-      if (0 < res.data.length){
+      if (0 < res.data.length) {
         isSubscribe = true
-      } else{
+      } else {
         isSubscribe = false
       }
-      if (isSubscribe){
-       comment.value = '해지하기'
+      if (isSubscribe) {
+        comment.value = '해지하기'
       }
     })
     .catch(err => {
@@ -63,11 +63,11 @@ onMounted(() => {
 const subscribe = function () {
   axios({
     method: 'post',
-    url: `${store.BASE_URL}/finance/products/subscribe/`,
+    url: `${financeStore.BASE_URL}/finance/products/subscribe/`,
     data: {
       product: product_id
-    }, 
-    headers:{
+    },
+    headers: {
       Authorization: `Token ${communityStore.token}`
     }
   })
@@ -81,6 +81,4 @@ const subscribe = function () {
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

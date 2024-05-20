@@ -6,31 +6,42 @@
                 {{ bank }}
             </option>
         </select>
-        <button @click="sort6Months">6개월</button>
-        <button @click="sort12Months">12개월</button>
-        <button @click="sort24Months">24개월</button>
-        <button @click="sort36Months">36개월</button>
         <button @click="initialize">초기화</button>
-        <div v-for="product of products">
-            <RouterLink
-              :to="{
-                name: 'detail',
-                params: { 'product_id': product.id }
-                }">
-                <span>{{ product.id }} - </span>
-                <span>{{ product.dcls_month }} </span>
-                <span>{{ product.kor_co_nm }}</span>
-                <span>{{ product.fin_prdt_nm }}</span>
-                <span v-if="product.rates[4]">{{ product.rates[4] }}</span>
-                <span v-else>-</span>
-                <span v-if="product.rates[6]">{{ product.rates[6] }}</span>
-                <span v-else>-</span>
-                <span v-if="product.rates[8]">{{ product.rates[8] }}</span>
-                <span v-else>-</span>
-                <span v-if="product.rates[10]">{{ product.rates[10] }}</span>
-                <span v-else>-</span>
-            </RouterLink>
-        </div>
+        <table>
+            <tr>
+                <td>공시 제출일</td>
+                <td>금융회사명</td>
+                <td>상품명</td>
+                <td><button @click="sort6Months">6개월</button></td>
+                <td><button @click="sort12Months">12개월</button></td>
+                <td><button @click="sort24Months">24개월</button></td>
+                <td><button @click="sort36Months">36개월</button></td>
+            </tr>
+            <!-- <span>{{ product.id }} - </span> -->
+            <tr v-for="product of products">
+                <td>{{ product.dcls_month }} </td>
+                <td>
+                    <RouterLink :to="{
+                        name: 'detail',
+                        params: { 'product_id': product.id }
+                    }">{{ product.kor_co_nm }}</RouterLink>
+                </td>
+                <td>
+                    <RouterLink :to="{
+                        name: 'detail',
+                        params: { 'product_id': product.id }
+                    }">{{ product.fin_prdt_nm }}</RouterLink>
+                </td>
+                <td v-if="product.rates[4]">{{ product.rates[4] }}</td>
+                <td v-else>-</td>
+                <td v-if="product.rates[6]">{{ product.rates[6] }}</td>
+                <td v-else>-</td>
+                <td v-if="product.rates[8]">{{ product.rates[8] }}</td>
+                <td v-else>-</td>
+                <td v-if="product.rates[10]">{{ product.rates[10] }}</td>
+                <td v-else>-</td>
+            </tr>
+        </table>
     </div>
 </template>
 
