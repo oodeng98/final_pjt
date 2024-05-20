@@ -14,8 +14,8 @@
         <div v-for="product of products">
             <RouterLink
               :to="{
-                name: 'productDetail',
-                params: { 'category': product.category === 0?'deposit':'saving', 'product_id': product.id }
+                name: 'detail',
+                params: { 'product_id': product.id }
                 }">
                 <span>{{ product.id }} - </span>
                 <span>{{ product.dcls_month }} </span>

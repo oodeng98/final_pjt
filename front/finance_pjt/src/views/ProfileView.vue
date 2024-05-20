@@ -31,7 +31,11 @@
     </form>
     <p>가입한 상품들</p>
     <ol>
-      <li v-for="product in info.products" :product="product">{{}}</li>
+      <li v-for="subscribe in subscribes" :key="subscribes.id">
+        <RouterLink :to="{ name: 'detail', params: { 'product_id': subscribe.product } }">
+          {{ subscribe }}
+        </RouterLink>
+      </li>
     </ol>
     <!-- https://noanomal.tistory.com/3를 참고하여 그래프를 그려보자 -->
     <!-- <p>{{ info }}</p> -->
@@ -39,16 +43,19 @@
 </template>
 
 <script setup>
-import { useCommunityStore } from "@/stores/community";
+import { onMounted, ref } from "vue"
+import { useRoute, RouterLink } from "vue-router"
+import { useCommunityStore } from "@/stores/community"
+
 import axios from "axios";
-import { onMounted, ref } from "vue";
-import { useRoute } from "vue-router";
 
 const info = ref({});
+const subscribes = ref([])
 
 onMounted(() => {
   const route = useRoute();
   const store = useCommunityStore();
+
   axios({
     method: "get",
     url: `http://127.0.0.1:8000/accounts/${route.params.user_id}/`,
@@ -63,6 +70,21 @@ onMounted(() => {
     .catch((err) => {
       console.log(err);
     });
+  
+  axios({
+    method: 'get',
+    url: 'http://127.0.0.1:8000/finance/products/subscribe_list/',
+    headers:{
+      Authorization: `Token ${store.token}`
+    }
+  })
+    .then(res => {
+      subscribes.value = res.data
+      console.log(res.data)
+    })
+    .catch(err => {
+      console.log(err)
+    })
 });
 </script>
 

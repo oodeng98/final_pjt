@@ -6,4 +6,5 @@ urlpatterns = [
     path('products/save/', views.save),
     path('products/get_product/', views.get_product),
     path('products/subscribe/', views.subscribe),
+    path('products/subscribe_list/', views.subscribe_list),
 ]
