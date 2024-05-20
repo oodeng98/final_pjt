@@ -2,15 +2,20 @@
   <div>
     <RouterLink :to="{ name: 'home' }">Home</RouterLink> |
     <RouterLink :to="{ name: 'community' }">Community</RouterLink> |
-    <RouterLink :to="{ name: 'logIn' }">logIn</RouterLink> |
-    <button @click="logOut">logOut</button> |
-    <RouterLink :to="{ name: 'signUp' }">signUp</RouterLink> |
+    <span v-if="user">
+      <button @click="logOut">logOut</button> |
+      <RouterLink :to="{ name: 'profile', params: { user_id: 1 } }"
+        >My Page</RouterLink
+      >
+      |
+    </span>
+    <span v-else>
+      <RouterLink :to="{ name: 'logIn' }">logIn</RouterLink> |
+      <RouterLink :to="{ name: 'signUp' }">signUp</RouterLink> |
+    </span>
     <RouterLink :to="{ name: 'exchangeRate' }">환율 계산기</RouterLink> |
     <RouterLink :to="{ name: 'products' }">Product</RouterLink> |
-    <RouterLink :to="{ name: 'profile', params: { user_id: 1 } }"
-      >My Page</RouterLink
-    >
-    | <RouterLink :to="{ name: 'map' }">Map</RouterLink> |
+    <RouterLink :to="{ name: 'map' }">Map</RouterLink> |
     <span v-if="user">{{ user }}</span>
     <RouterView />
   </div>

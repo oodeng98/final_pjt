@@ -20,7 +20,6 @@ export const useCommunityStore = defineStore("community", () => {
       }
     }).then(res=>{
       console.log('signed up!')
-      // logIn({username, password:password1})
     })
     .catch(err=> console.log(err))
     
@@ -33,7 +32,6 @@ export const useCommunityStore = defineStore("community", () => {
       }
     }).then(res=>{
       token.value = res.data.key
-      // getUserPk()
     }).catch(err=> {
       console.log(err)
     })
@@ -49,7 +47,7 @@ export const useCommunityStore = defineStore("community", () => {
       userPk.value = res.data.pk
     })
 
-    // detail
+    // update detail
     await axios({
       method:'put',
       url:`http://127.0.0.1:8000/accounts/${userPk.value}/`,
