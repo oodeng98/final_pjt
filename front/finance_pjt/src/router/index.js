@@ -68,7 +68,7 @@ const router = createRouter({
       beforeEnter: async (to, from, next) => {
         const store = useCommunityStore()
         const articleAuthor = await getArticleAuthorById(to.params.article_id)
-        if (store.userInfo?.pk === articleAuthor) {
+        if (store.userInfo?.id === articleAuthor) {
           next()
         } else {
           next({ name: 'communityDetail', params: { article_id: to.params.article_id } })

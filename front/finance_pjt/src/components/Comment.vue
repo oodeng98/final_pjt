@@ -69,7 +69,7 @@ const likeComment = () => {
     <p v-if="likes">좋아요 : {{ likes.length }}</p>
     <button v-if="!hasLiked" @click="likeComment">좋아요</button>
     <button v-else @click="likeComment">좋아요 취소</button>
-    <button v-if="comment.user.id === store.userInfo.pk" @click="deleteComment">
+    <button v-if="comment.user.id === store.userInfo.id" @click="deleteComment">
       댓글 삭제
     </button>
   </div>

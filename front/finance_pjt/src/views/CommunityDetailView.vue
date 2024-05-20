@@ -11,7 +11,7 @@
     <p>
       <button v-if="!hasLiked" @click="likeArticle">좋아요</button>
       <button v-else @click="likeArticle">좋아요 취소</button>
-      <span v-if="article.user.id === store.userInfo.pk">
+      <span v-if="article.user.id === store.userInfo.id">
         <button @click="deleteArticle">글 삭제</button>
         <button @click="updateArticle">글 수정</button>
       </span>
@@ -68,8 +68,6 @@ onMounted(() => {
         },
       })
         .then((res) => {
-          // console.log(res.data);
-          // like.value = res.data;
           likes.value = res.data.likes;
           hasLiked.value = res.data.hasLiked;
         })
