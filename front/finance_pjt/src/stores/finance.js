@@ -51,5 +51,5 @@ export const useFinanceStore = defineStore("finance", () => {
       })
       .catch(err => console.log(err))
   }
-  return { getProducts, deposits, savings, periods, depositBanks, savingBanks };
+  return { BASE_URL, getProducts, deposits, savings, periods, depositBanks, savingBanks };
 }, { persist: true })
