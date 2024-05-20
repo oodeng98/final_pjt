@@ -1,14 +1,14 @@
 from django.shortcuts import render
 
 from rest_framework.decorators import api_view
+from django.contrib.auth.decorators import login_required
 from rest_framework.response import Response
 from rest_framework import status
 from django.conf import settings
 import requests
 
-from .serializers import ExchangerateSerializer
-from .serializers import ProductListSerializer
-from .models import Product
+from .serializers import ExchangerateSerializer, ProductListSerializer, SubscribeSerializer
+from .models import Product, User_Product
 
 # Create your views here.
 @api_view(['GET'])
@@ -117,3 +117,29 @@ def get_product(request):
     products = Product.objects.all()
     serializers = ProductListSerializer(products, many=True)
     return Response(serializers.data, status=status.HTTP_200_OK)
+
+@api_view(['GET', 'POST'])
+# @login_required
+def subscribe(request):
+  
+  if request.method == 'POST':
+    product_id = request.data['product']
+    product = Product.objects.get(pk=product_id)
+    data = request.data  # 추후 수정
+    data['balance'] = 5000000  # 추후 수정
+    subscribes = User_Product.objects.filter(user=request.user, product=product)
+    if subscribes:
+      subscribes.delete()
+      return Response(status=status.HTTP_204_NO_CONTENT)
+    else:
+      serializer = SubscribeSerializer(data=request.data)
+      if serializer.is_valid(raise_exception=True):
+        serializer.save(user=request.user)
+        return Response(status=status.HTTP_200_OK)
+  elif request.method == 'GET':
+    product_id = request.GET.get('product')
+    print(product_id)
+    product = Product.objects.get(pk=product_id)
+    subscribes = User_Product.objects.filter(user=request.user, product=product_id)
+    serializer = SubscribeSerializer(subscribes, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)

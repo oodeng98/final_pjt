@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import Exchangerate
-from .models import Product
+from .models import Product, User_Product
 
 class ExchangerateSerializer(serializers.ModelSerializer):
     
@@ -13,3 +13,10 @@ class ProductListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = '__all__'
+        
+
+class SubscribeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User_Product
+        fields = '__all__'
+        read_only_fields = ('user', )
