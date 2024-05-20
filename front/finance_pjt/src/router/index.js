@@ -110,7 +110,7 @@ router.beforeEach((to, from) => {
     to.name === 'exchangeRate' ||
     to.name === 'deposit' ||
     to.name === 'saving' ||
-    to.name === 'productDetail' 
+    to.name === 'detail' 
     ) && store.isLogin === false) {
     return { name: 'logIn' }
   }
