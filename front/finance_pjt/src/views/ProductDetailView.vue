@@ -1,11 +1,8 @@
 <template>
   <div>
-    <h1 v-if="category === 'deposit'">정기예금 상세</h1>
-    <h1 v-else>정기적금 상세</h1>
+    <h1>{{ category }}</h1>
     <button @click="subscribe">{{comment}}</button>
-    <div v-for="info in product">
-      {{ info }}
-    </div>
+    {{ product[0] }}
   </div>
 </template>
 
@@ -20,17 +17,22 @@ import router from '@/router'
 
 const store = useFinanceStore()
 const communityStore = useCommunityStore()
-const product = ref([])
+
 const route = useRoute()
-const { category, product_id } = route.params
+const { product_id } = route.params
+
+const product = ref([])
+const category = ref(null)
 const comment = ref('가입하기')
+
 let isSubscribe = true
 
 onMounted(() => {
-  if (category === 'deposit') {
-    product.value = store.deposits.filter((element) => element.id == product_id)
-  } else {
+  product.value = store.deposits.filter((element) => element.id == product_id)
+  category.value = '정기예금 상세'
+  if (product.value.length === 0) {
     product.value = store.savings.filter((element) => element.id == product_id)
+    category.value = '정기적금 상세'
   }
 
   axios({
@@ -52,7 +54,6 @@ onMounted(() => {
       if (isSubscribe){
        comment.value = '해지하기'
       }
-      console.log(res.data)
     })
     .catch(err => {
       console.log(err)

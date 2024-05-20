@@ -119,9 +119,8 @@ def get_product(request):
     return Response(serializers.data, status=status.HTTP_200_OK)
 
 @api_view(['GET', 'POST'])
-# @login_required
+@login_required
 def subscribe(request):
-  
   if request.method == 'POST':
     product_id = request.data['product']
     product = Product.objects.get(pk=product_id)
@@ -142,4 +141,13 @@ def subscribe(request):
     product = Product.objects.get(pk=product_id)
     subscribes = User_Product.objects.filter(user=request.user, product=product_id)
     serializer = SubscribeSerializer(subscribes, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+def subscribe_list(request):
+  if request.method == 'GET':
+    subscribes = User_Product.objects.filter(user=request.user)
+    serializer = SubscribeSerializer(subscribes, many=True)
+    print(serializer.data)
     return Response(serializer.data, status=status.HTTP_200_OK)

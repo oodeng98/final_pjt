@@ -31,7 +31,7 @@ const router = createRouter({
       children: [
         { path: 'deposit', name: "deposit", component: DepositView },
         { path: 'saving', name: "saving", component: SavingView },
-        { path: ':category/:product_id', name: 'productDetail', component: ProductDetailView }
+        { path: ':product_id', name: 'detail', component: ProductDetailView }
       ]
     },
     {
