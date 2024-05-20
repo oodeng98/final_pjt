@@ -108,6 +108,10 @@ def save(request):
         product.intr_rate_type_nm = res.get('intr_rate_type_nm')
         product.intr_rate = res.get('intr_rate')
         product.intr_rate2 = res.get('intr_rate2')
+        
+        if res.get('rsrv_type'):
+          product.rsrv_type = res.get('rsrv_type')
+          product.rsrv_type_nm = res.get('rsrv_type_nm')
         product.save()
     return Response(res, status=status.HTTP_200_OK)
   
@@ -142,7 +146,6 @@ def subscribe(request):
     subscribes = User_Product.objects.filter(user=request.user, product=product_id)
     serializer = SubscribeSerializer(subscribes, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
-
 
 @api_view(['GET'])
 def subscribe_list(request):

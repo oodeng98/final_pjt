@@ -30,6 +30,8 @@ class Product(models.Model):
   # optionList
   intr_rate_type = models.TextField(null=True)  # 저축 금리 유형
   intr_rate_type_nm = models.TextField(null=True)  # 저축 금리 유형명
+  rsrv_type = models.TextField(null=True)  # 적립 유형
+  rsrv_type_nm = models.TextField(null=True)  # 적립 유형명
   save_trm = models.TextField()  # 저축 기간 [단위: 개월]
   intr_rate = models.IntegerField(null=True)  # 저축 금리
   intr_rate2 = models.IntegerField(null=True)  # 최고 우대금리
