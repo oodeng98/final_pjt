@@ -41,3 +41,7 @@ class User_Product(models.Model):
   product = models.ForeignKey("Product", on_delete=models.CASCADE)
   balance = models.IntegerField()
   created_at = models.DateTimeField(auto_now_add=True)
+  
+class Question(models.Model):
+  text = models.TextField()
+  created_at = models.DateTimeField(auto_now_add=True)
