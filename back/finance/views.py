@@ -156,11 +156,14 @@ def subscribe_list(request):
     return Response(serializer.data, status=status.HTTP_200_OK)
   
 from openai import OpenAI
+import os
+
+file_path = os.path.join(os.path.dirname(__file__), 'train.txt')
 
 @api_view(['GET'])
 def gpt(request):
     try:
-        with open('C:\\Users\\SSAFY\\Desktop\\final_pjt\\back\\finance\\train.txt', 'r', encoding='utf-8') as f:
+        with open(file_path, 'r', encoding='utf-8') as f:
           file_content = f.read()
         f.close()
     except UnicodeDecodeError as e:
