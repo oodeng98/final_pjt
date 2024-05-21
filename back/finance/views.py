@@ -137,7 +137,7 @@ def subscribe(request):
     else:
       serializer = SubscribeSerializer(data=request.data)
       if serializer.is_valid(raise_exception=True):
-        serializer.save(user=request.user)
+        serializer.save(user=request.user, product=product)
         return Response(status=status.HTTP_200_OK)
   elif request.method == 'GET':
     product_id = request.GET.get('product')
