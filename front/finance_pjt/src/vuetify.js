@@ -11,10 +11,10 @@ export default createVuetify({
   directives,
   ssr: true,
   defaults: {
-    VBtn: {
-      color: 'primary',
-      variant: 'outlined',
-      rounded: true,
-    },
+    // VBtn: {
+    //   color: 'primary',
+    //   variant: 'outlined',
+    //   rounded: true,
+    // },
   },
 })

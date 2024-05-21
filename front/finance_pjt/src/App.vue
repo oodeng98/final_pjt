@@ -1,25 +1,45 @@
 <template>
-  <div>
-    <RouterLink :to="{ name: 'home' }">Home</RouterLink> |
-    <RouterLink :to="{ name: 'community' }">Community</RouterLink> |
-    <span v-if="user">
-      <button @click="logOut">logOut</button> |
-      <RouterLink :to="{ name: 'profile', params: { user_id: 1 } }"
-        >My Page</RouterLink
-      >
-      |
-    </span>
-    <span v-else>
-      <RouterLink :to="{ name: 'logIn' }">logIn</RouterLink> |
-      <RouterLink :to="{ name: 'signUp' }">signUp</RouterLink> |
-    </span>
-    <RouterLink :to="{ name: 'exchangeRate' }">환율 계산기</RouterLink> |
-    <RouterLink :to="{ name: 'products' }">Product</RouterLink> |
-    <RouterLink :to="{ name: 'map' }">Map</RouterLink> |
-    <span v-if="user?.nickname">Welcome, {{ user.nickname }}</span>
-    <span v-else-if="user">Welcome, {{ user.username }}</span>
-    <RouterView />
-  </div>
+  <v-app>
+    <v-navigation-drawer v-model="sidebar" app location="end">
+      <v-list>
+        <p>hi</p>
+      </v-list>
+    </v-navigation-drawer>
+    <v-toolbar app class="bg-grey-darken-1">
+      <v-toolbar-title>
+        <v-btn flat :to="{ name: 'home' }">HOME</v-btn>
+      </v-toolbar-title>
+      <v-toolbar-items class="hidden-xs">
+        <v-btn flat :to="{ name: 'community' }">Community</v-btn>
+        <v-btn :to="{ name: 'exchangeRate' }">환율 계산기</v-btn>
+        <v-btn :to="{ name: 'products' }">Product</v-btn>
+        <v-btn :to="{ name: 'map' }">Map</v-btn>
+        <template v-if="user">
+          <v-btn class="bg-grey-darken-3" @click="logOut">logOut</v-btn>
+          <v-btn
+            class="bg-grey-darken-3"
+            :to="{ name: 'profile', params: { user_id: 1 } }"
+            >My Page</v-btn
+          >
+        </template>
+        <template v-else>
+          <v-btn :to="{ name: 'logIn' }">logIn</v-btn>
+          <v-btn :to="{ name: 'signUp' }">signUp</v-btn>
+        </template>
+      </v-toolbar-items>
+      <v-app-bar-nav-icon
+        @click="sidebar = !sidebar"
+        class="hidden-sm-and-up"
+      ></v-app-bar-nav-icon>
+    </v-toolbar>
+    <v-content>
+      <div class="userInfo text-center">
+        <h2 v-if="user?.nickname">Welcome, {{ user.nickname }}</h2>
+        <h2 v-else-if="user">Welcome, {{ user.username }}</h2>
+      </div>
+      <RouterView />
+    </v-content>
+  </v-app>
 </template>
 
 <script setup>
@@ -32,6 +52,7 @@ const user = computed(() => store.userInfo);
 const logOut = () => {
   store.logOut();
 };
+const sidebar = ref(false);
 </script>
 
 <style scoped></style>
