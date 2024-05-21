@@ -3,16 +3,41 @@
     <h1>
       {{ info?.nickname ? info.nickname : info.username }}님의 프로필 페이지
     </h1>
-    <h3>기본 정보 수정</h3>
-    <p>회원 번호: {{ info.id }}</p>
-    <p>ID: {{ info.username }}</p>
-    <form @submit.prevent="update">
-      <v-text-field label="Email" v-model="email"></v-text-field>
-      <v-text-field label="First Name" v-model="first_name"></v-text-field>
-      <v-text-field label="Last Name" v-model="last_name"></v-text-field>
-      <v-text-field label="닉네임" v-model="nickname"></v-text-field>
-      <v-btn type="submit">업데이트</v-btn>
-    </form>
+
+    <div class="infoView" v-show="!updateView">
+      <v-btn
+        @click="
+          () => {
+            updateView = !updateView;
+          }
+        "
+        >정보 수정</v-btn
+      >
+      <p>회원 번호 : {{ info.id }}</p>
+      <p>ID : {{ info.username }}</p>
+      <p>닉네임 : {{ info.nickname }}</p>
+      <p>email : {{ info.email }}</p>
+      <p>first name : {{ info.first_name }}</p>
+      <p>last name : {{ info.last_name }}</p>
+    </div>
+    <div class="changeView" v-show="updateView">
+      <v-btn
+        @click="
+          () => {
+            updateView = !updateView;
+          }
+        "
+        >정보 보기</v-btn
+      >
+      <h3>기본 정보 수정</h3>
+      <form @submit.prevent="update">
+        <v-text-field label="Email" v-model="email"></v-text-field>
+        <v-text-field label="First Name" v-model="first_name"></v-text-field>
+        <v-text-field label="Last Name" v-model="last_name"></v-text-field>
+        <v-text-field label="닉네임" v-model="nickname"></v-text-field>
+        <v-btn type="submit">업데이트</v-btn>
+      </form>
+    </div>
     <p>가입한 상품들</p>
     <ol>
       <li v-for="subscribe in subscribes" :key="subscribes.id">
@@ -35,16 +60,19 @@ import { useCommunityStore } from "@/stores/community";
 import { useFinanceStore } from "@/stores/finance";
 
 import axios from "axios";
+import { computed } from "vue";
 
 const subscribes = ref([]);
 const route = useRoute();
 const communityStore = useCommunityStore();
 const financeStore = useFinanceStore();
-const info = communityStore.userInfo;
+// const info = communityStore.userInfo;
+const info = computed(() => communityStore.userInfo);
 const email = ref(null);
 const nickname = ref(null);
 const first_name = ref(null);
 const last_name = ref(null);
+const updateView = ref(false);
 
 onMounted(() => {
   axios({
@@ -81,6 +109,7 @@ const update = () => {
   })
     .then((res) => {
       communityStore.userInfo = res.data;
+      updateView.value = false;
     })
     .catch((err) => {
       console.log(err);
