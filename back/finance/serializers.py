@@ -16,6 +16,7 @@ class ProductListSerializer(serializers.ModelSerializer):
         
 
 class SubscribeSerializer(serializers.ModelSerializer):
+    product = ProductListSerializer(read_only=True)
     class Meta:
         model = User_Product
         fields = '__all__'

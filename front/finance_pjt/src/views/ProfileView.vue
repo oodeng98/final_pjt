@@ -39,17 +39,18 @@
       </form>
     </div>
     <p>가입한 상품들</p>
-    <ol>
-      <li v-for="subscribe in subscribes" :key="subscribes.id">
+    <ul>
+      <li v-for="subscribe in subscribes" :key="subscribe.id">
         <RouterLink
-          :to="{ name: 'detail', params: { product_id: subscribe.product } }"
+          :to="{ name: 'detail', params: { product_id: subscribe.product.id } }"
         >
-          {{ subscribe }}
+          {{ subscribe.product.fin_prdt_nm }}
         </RouterLink>
       </li>
-    </ol>
-    <!-- https://noanomal.tistory.com/3를 참고하여 그래프를 그려보자 -->
-    <!-- <p>{{ info }}</p> -->
+    </ul>
+  </div>
+  <div class="chart">
+    <canvas ref="barChart"></canvas>
   </div>
 </template>
 
@@ -62,17 +63,20 @@ import { useFinanceStore } from "@/stores/finance";
 import axios from "axios";
 import { computed } from "vue";
 
+import { Chart } from "chart.js/auto";
+
 const subscribes = ref([]);
 const route = useRoute();
 const communityStore = useCommunityStore();
 const financeStore = useFinanceStore();
-// const info = communityStore.userInfo;
 const info = computed(() => communityStore.userInfo);
 const email = ref(null);
 const nickname = ref(null);
 const first_name = ref(null);
 const last_name = ref(null);
 const updateView = ref(false);
+
+const barChart = ref(null);
 
 onMounted(() => {
   axios({
@@ -84,7 +88,7 @@ onMounted(() => {
   })
     .then((res) => {
       subscribes.value = res.data;
-      console.log(res.data);
+      initChart(res.data);
     })
     .catch((err) => {
       console.log(err);
@@ -92,6 +96,44 @@ onMounted(() => {
   email.value = communityStore.userInfo.email;
   nickname.value = communityStore.userInfo.nickname;
 });
+
+const initChart = (data) => {
+  // console.log(data);
+  const labels = [];
+  const profits = [];
+  data.forEach((element) => {
+    labels.push(element.product.fin_prdt_nm);
+    profits.push(element.balance);
+  });
+
+  const ctx = barChart.value.getContext("2d");
+  new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: labels,
+      datasets: [
+        {
+          label: "수익 (대한민국 원)",
+          backgroundColor: [
+            "#3e95cd",
+            "#8e5ea2",
+            "#3cba9f",
+            "#e8c3b9",
+            "#c45850",
+          ],
+          data: profits,
+        },
+      ],
+    },
+    options: {
+      legend: { display: false },
+      title: {
+        display: true,
+        text: "그래프",
+      },
+    },
+  });
+};
 
 const update = () => {
   axios({
