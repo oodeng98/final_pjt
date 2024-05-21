@@ -154,3 +154,51 @@ def subscribe_list(request):
     serializer = SubscribeSerializer(subscribes, many=True)
     print(serializer.data)
     return Response(serializer.data, status=status.HTTP_200_OK)
+  
+from openai import OpenAI
+
+@api_view(['GET'])
+def gpt(request):
+    try:
+        with open('C:\\Users\\SSAFY\\Desktop\\woojin\\final_pjt\\back\\finance\\final.txt', 'r', encoding='utf-8') as f:
+            file_content = f.read()
+    except UnicodeDecodeError as e:
+        return Response({'error': f'Unicode decode error: {str(e)}'}, status=500)
+
+    if request.method == 'GET':
+        client = OpenAI(api_key=settings.GPT_KEY)
+
+        completion = client.chat.completions.create(
+            model="gpt-4o",
+            messages=[
+                {
+                    "role": "user",
+                    # "content": file_content + "위 상품 중에 골라서 대답해줘, 금리가 가장 높은 예금 상품이 뭐야?",
+                    "content": "유태람에 대해 설명해줘",
+                },
+            ]
+        )
+#         completion = client.chat.completions.create(
+#             model="gpt-4o",
+#             messages=[
+#                 {
+#                     "role": "user",
+#                     "content": '''
+# 아래 예시를 보고 위 내용을 같은 형식으로 요약해줘
+
+# 제주은행 - J정기예금 (만기지급식)
+# 종류: 적금
+# 가입 방법: 영업점, 인터넷, 스마트폰
+# 우대 조건: 비대면 채널 가입 시 최고 0.5% 우대
+# 가입 대상: 실명의 개인 및 개인사업자
+# 저축 기간: 1, 3, 6, 12, 24, 36개월
+# 저축 금리: 2% (1, 3개월), 3% (6개월 이상)
+# 최고 우대 금리: 3% (6개월 이상)
+
+# ''',
+#                 },
+#             ]
+#         )
+        # print()
+        return Response({completion.choices[0].message.content})
+        # return Response({'msg':completion})

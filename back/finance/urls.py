@@ -7,4 +7,5 @@ urlpatterns = [
     path('products/get_product/', views.get_product),
     path('products/subscribe/', views.subscribe),
     path('products/subscribe_list/', views.subscribe_list),
+    path('gpt/', views.gpt),
 ]
