@@ -1,38 +1,24 @@
 <template>
   <div>
-    <h1>{{ info.username }}님의 프로필 페이지</h1>
+    <h1>
+      {{ info?.nickname ? info.nickname : info.username }}님의 프로필 페이지
+    </h1>
     <h3>기본 정보 수정</h3>
-    <p>회원 번호: {{}}</p>
+    <p>회원 번호: {{ info.id }}</p>
     <p>ID: {{ info.username }}</p>
-    <form action="">
-      <label for="email">Email: </label>
-      <input type="text" id="email" />
-      <input type="submit" />
-    </form>
-    <form action="">
-      <label for="nickname">Nickname: </label>
-      <input type="text" id="nickname" />
-      <input type="submit" />
-    </form>
-    <form action="">
-      <label for="age">나이: : </label>
-      <input type="text" id="age" />
-      <input type="submit" />
-    </form>
-    <form action="">
-      <label for="balance">현재 가진 금액: </label>
-      <input type="text" id="balance" />
-      <input type="submit" />
-    </form>
-    <form action="">
-      <label for="salary">연봉: </label>
-      <input type="text" id="salary" />
-      <input type="submit" />
+    <form @submit.prevent="update">
+      <v-text-field label="Email" v-model="email"></v-text-field>
+      <v-text-field label="First Name" v-model="first_name"></v-text-field>
+      <v-text-field label="Last Name" v-model="last_name"></v-text-field>
+      <v-text-field label="닉네임" v-model="nickname"></v-text-field>
+      <v-btn type="submit">업데이트</v-btn>
     </form>
     <p>가입한 상품들</p>
     <ol>
       <li v-for="subscribe in subscribes" :key="subscribes.id">
-        <RouterLink :to="{ name: 'detail', params: { 'product_id': subscribe.product } }">
+        <RouterLink
+          :to="{ name: 'detail', params: { product_id: subscribe.product } }"
+        >
           {{ subscribe }}
         </RouterLink>
       </li>
@@ -43,49 +29,63 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from "vue"
-import { useRoute, RouterLink } from "vue-router"
-import { useCommunityStore } from "@/stores/community"
+import { onMounted, ref } from "vue";
+import { useRoute, RouterLink } from "vue-router";
+import { useCommunityStore } from "@/stores/community";
+import { useFinanceStore } from "@/stores/finance";
 
 import axios from "axios";
 
-const info = ref({});
-const subscribes = ref([])
+const subscribes = ref([]);
+const route = useRoute();
+const communityStore = useCommunityStore();
+const financeStore = useFinanceStore();
+const info = communityStore.userInfo;
+const email = ref(null);
+const nickname = ref(null);
+const first_name = ref(null);
+const last_name = ref(null);
 
 onMounted(() => {
-  const route = useRoute();
-  const store = useCommunityStore();
-
   axios({
     method: "get",
-    url: `http://127.0.0.1:8000/accounts/${route.params.user_id}/`,
+    url: "http://127.0.0.1:8000/finance/products/subscribe_list/",
     headers: {
-      Authorization: store.token,
+      Authorization: `Token ${communityStore.token}`,
     },
   })
     .then((res) => {
-      console.log(res);
-      info.value = res.data;
+      subscribes.value = res.data;
+      console.log(res.data);
     })
     .catch((err) => {
       console.log(err);
     });
-  
-  axios({
-    method: 'get',
-    url: 'http://127.0.0.1:8000/finance/products/subscribe_list/',
-    headers:{
-      Authorization: `Token ${store.token}`
-    }
-  })
-    .then(res => {
-      subscribes.value = res.data
-      console.log(res.data)
-    })
-    .catch(err => {
-      console.log(err)
-    })
+  email.value = communityStore.userInfo.email;
+  nickname.value = communityStore.userInfo.nickname;
 });
+
+const update = () => {
+  axios({
+    method: "put",
+    url: `http://127.0.0.1:8000/accounts/${communityStore.userInfo.id}/`,
+    headers: {
+      Authorization: `Token ${communityStore.token}`,
+    },
+    data: {
+      email: email.value,
+      nickname: nickname.value,
+      first_name: first_name.value,
+      last_name: last_name.value,
+    },
+  })
+    .then((res) => {
+      communityStore.userInfo = res.data;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
 </script>
 
 <style scoped></style>

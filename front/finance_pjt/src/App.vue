@@ -16,7 +16,8 @@
     <RouterLink :to="{ name: 'exchangeRate' }">환율 계산기</RouterLink> |
     <RouterLink :to="{ name: 'products' }">Product</RouterLink> |
     <RouterLink :to="{ name: 'map' }">Map</RouterLink> |
-    <span v-if="user">{{ user }}</span>
+    <span v-if="user?.nickname">Welcome, {{ user.nickname }}</span>
+    <span v-else-if="user">Welcome, {{ user.username }}</span>
     <RouterView />
   </div>
 </template>
