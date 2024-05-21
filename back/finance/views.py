@@ -8,7 +8,7 @@ from django.conf import settings
 import requests
 
 from .serializers import ExchangerateSerializer, ProductListSerializer, SubscribeSerializer
-from .models import Product, User_Product
+from .models import Product, User_Product, Question
 
 # Create your views here.
 @api_view(['GET'])
@@ -160,24 +160,38 @@ from openai import OpenAI
 @api_view(['GET'])
 def gpt(request):
     try:
-        with open('C:\\Users\\SSAFY\\Desktop\\woojin\\final_pjt\\back\\finance\\final.txt', 'r', encoding='utf-8') as f:
-            file_content = f.read()
+        with open('C:\\Users\\SSAFY\\Desktop\\final_pjt\\back\\finance\\train.txt', 'r', encoding='utf-8') as f:
+          file_content = f.read()
+        f.close()
     except UnicodeDecodeError as e:
         return Response({'error': f'Unicode decode error: {str(e)}'}, status=500)
 
     if request.method == 'GET':
-        client = OpenAI(api_key=settings.GPT_KEY)
-
-        completion = client.chat.completions.create(
-            model="gpt-4o",
-            messages=[
-                {
-                    "role": "user",
-                    # "content": file_content + "위 상품 중에 골라서 대답해줘, 금리가 가장 높은 예금 상품이 뭐야?",
-                    "content": "유태람에 대해 설명해줘",
-                },
-            ]
+      prev_questions = [question.text for question in Question.objects.all().order_by('-created_at')[:5]]  
+      query = request.GET.get('query')
+      messages = [{
+          "role": "user",
+          "content": file_content + '위의 상품들 중에 검색을 하고 싶어.'
+          }]
+      for question in prev_questions + [query]:
+        messages.append({
+          "role": "user",
+          "content": question
+        })
+      messages.append({
+        "role": "user",
+        "content": "마크다운 양식 없이 출력해줘."
+        })
+      print(messages)
+      
+      client = OpenAI(api_key=settings.GPT_KEY)
+      completion = client.chat.completions.create(
+        model="gpt-4o",
+        messages=messages
         )
+      Question.objects.create(text=query)
+      return Response({'response': completion.choices[0].message.content})
+
 #         completion = client.chat.completions.create(
 #             model="gpt-4o",
 #             messages=[
@@ -200,5 +214,4 @@ def gpt(request):
 #             ]
 #         )
         # print()
-        return Response({completion.choices[0].message.content})
         # return Response({'msg':completion})
