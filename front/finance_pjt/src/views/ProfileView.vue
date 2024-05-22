@@ -16,30 +16,21 @@
           <br />
           <p>가입한 상품들</p>
           <ul>
-            <li
-              v-for="subscribe in subscribes"
-              :key="subscribe.id"
-              @click="
-                router.push({
-                  name: 'detail',
-                  params: { product_id: subscribe.product.id },
-                })
-              "
-            >
+            <li v-for="subscribe in subscribes" :key="subscribe.id" @click="
+              router.push({
+                name: 'detail',
+                params: { product_id: subscribe.product.id },
+              })
+              ">
               {{ subscribe.product.fin_prdt_nm }}
             </li>
           </ul>
         </v-card-text>
         <v-card-actions>
-          <v-btn
-            @click="
-              () => {
-                updateView = !updateView;
-              }
-            "
-            variant="outlined"
-            >정보 수정</v-btn
-          >
+          <v-btn @click="() => {
+              updateView = !updateView;
+            }
+            " variant="outlined">정보 수정</v-btn>
         </v-card-actions>
       </v-card>
     </div>
@@ -50,18 +41,11 @@
         <v-text-field label="First Name" v-model="first_name"></v-text-field>
         <v-text-field label="Last Name" v-model="last_name"></v-text-field>
         <v-text-field label="닉네임" v-model="nickname"></v-text-field>
-        <v-btn type="submit" variant="outlined" style="margin-right: 4px"
-          >업데이트</v-btn
-        >
-        <v-btn
-          @click="
-            () => {
-              updateView = !updateView;
-            }
-          "
-          variant="outlined"
-          >돌아가기</v-btn
-        >
+        <v-btn @click="() => {
+            updateView = !updateView;
+          }
+          " variant="outlined" style="margin-right: 4px">돌아가기</v-btn>
+        <v-btn type="submit" variant="outlined">업데이트</v-btn>
       </form>
     </div>
   </div>
@@ -179,7 +163,7 @@ const update = () => {
 </script>
 
 <style scoped>
-.v-card-text > p {
+.v-card-text>p {
   font-size: 18px;
   padding: 2px;
 }
