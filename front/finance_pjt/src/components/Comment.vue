@@ -1,3 +1,32 @@
+<template>
+  <div class="commentDetail">
+    <div style="display: flex; justify-content: space-between">
+      <p>
+        {{ comment.user.username }} ({{ comment.created_at.slice(0, 10) }}
+        {{ comment.created_at.slice(11, 19) }})
+      </p>
+      <div style="display: flex">
+        <v-btn v-if="!hasLiked" class="mr-3" @click="likeComment"
+          ><v-icon style="width: 30px">mdi-thumb-up-outline</v-icon></v-btn
+        >
+        <v-btn v-else color="blue" class="mr-3" @click="likeComment"
+          ><v-icon style="width: 30px">mdi-thumb-up-outline</v-icon></v-btn
+        >
+        <p v-if="likes">추천 : {{ likes.length }}</p>
+        <v-btn
+          v-if="comment.user.id === store.userInfo.id"
+          @click="deleteComment"
+          style="margin-left: 9px"
+        >
+          삭제
+        </v-btn>
+      </div>
+    </div>
+    <p>{{ comment.content }}</p>
+    <p></p>
+  </div>
+</template>
+
 <script setup>
 import { useCommunityStore } from "@/stores/community.js";
 import { useRouter } from "vue-router";
@@ -59,33 +88,9 @@ const likeComment = () => {
 };
 </script>
 
-<template>
-  <div class="commentDetail">
-    <p>{{ idx + 1 }}번째 댓글</p>
-    <p>댓글 id: {{ comment.id }}</p>
-    <p>댓글 작성자: {{ comment.user.username }}</p>
-    <p>댓글 내용: {{ comment.content }}</p>
-    <p>댓글 작성일: {{ comment.created_at }}</p>
-    <p v-if="likes">좋아요 : {{ likes.length }}</p>
-    <v-btn v-if="!hasLiked" class="mr-3" color="red" @click="likeComment"
-      >좋아요</v-btn
-    >
-    <v-btn v-else color="red" class="mr-3" @click="likeComment"
-      >좋아요 취소</v-btn
-    >
-    <v-btn
-      v-if="comment.user.id === store.userInfo.id"
-      color="grey"
-      @click="deleteComment"
-    >
-      댓글 삭제
-    </v-btn>
-  </div>
-</template>
-
 <style scoped>
 .commentDetail {
-  padding: 0.5rem;
+  /* padding: 0.5rem; */
   /* border: 1px solid #ccc; */
   border-radius: 8px;
   margin-bottom: 1rem;

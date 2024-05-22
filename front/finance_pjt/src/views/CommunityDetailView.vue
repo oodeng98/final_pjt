@@ -1,32 +1,47 @@
 <template>
   <v-container class="border-double">
     <v-col class="articleDetail" v-if="article">
-      <v-btn class="bg-red" @click="router.go(-1)">뒤로가기</v-btn>
-      <div class="text-h2">{{ article.title }}</div>
-      <div class="text-h4">{{ article.user.username }}</div>
+      <!-- <v-btn class="bg-red" @click="router.go(-1)">뒤로가기</v-btn> -->
+      <div style="display: flex; justify-content: space-between">
+        <div class="text-p">{{ article.user.username }}</div>
+        <p>
+          {{ article.created_at.slice(0, 10) }}
+          {{ article.created_at.slice(11, 19) }}
+        </p>
+        <p v-if="likes">추천: {{ likes.length }}</p>
+      </div>
+      <div style="display: flex; justify-content: end">
+        <p @click="router.push({ name: 'community' })">목록</p>
+        <span style="margin-left: 3px; margin-right: 3px"> | </span>
+        <p>댓글({{ article.comment_set.length }})</p>
+      </div>
+      <div class="text-h4">{{ article.title }}</div>
       <div class="content">
         <p>{{ article.content }}</p>
       </div>
-      <p>작성일자 : {{ article.created_at.slice(0, 10) }}</p>
-      <p>수정일자 : {{ article.updated_at.slice(0, 10) }}</p>
-      <p v-if="likes">좋아요 : {{ likes.length }}</p>
+      <p v-if="article.updated_at !== article.created_at">
+        수정일자: {{ article.updated_at.slice(0, 10) }}
+        {{ article.updated_at.slice(11, 19) }}
+      </p>
       <br />
       <p>
-        <v-btn v-if="!hasLiked" @click="likeArticle" class="bg-red"
-          >좋아요</v-btn
+        <v-btn v-if="!hasLiked" class="mr-3" @click="likeArticle"
+          ><v-icon style="width: 30px">mdi-thumb-up-outline</v-icon></v-btn
         >
-        <v-btn v-else @click="likeArticle" class="bg-red">좋아요 취소</v-btn>
+        <v-btn v-else color="blue" class="mr-3" @click="likeArticle"
+          ><v-icon style="width: 30px">mdi-thumb-up-outline</v-icon></v-btn
+        >
         <span v-if="article.user.id === store.userInfo.id">
-          <v-btn @click="deleteArticle">글 삭제</v-btn>
-          <v-btn @click="updateArticle">글 수정</v-btn>
+          <v-btn @click="deleteArticle">삭제</v-btn>
+          <v-btn @click="updateArticle">수정</v-btn>
         </span>
       </p>
-      <v-row class="align-center justify-center">
+      <v-row class="align-center justify-center" style="height: 100px">
         <v-col cols="10">
           <form @submit.prevent="createComment">
             <br />
             <v-text-field
-              label="댓글 작성"
+              label="명예훼손, 개인정보 유출, 분쟁 유발, 허위사실 유포 등의 글은 이용약관에 의해 제재는 물론 볍률에 의해 처벌 받을 수 있습니다."
               type="text"
               id="content"
               v-model="content"
@@ -34,13 +49,14 @@
           </form>
         </v-col>
         <v-col cols="2">
-          <v-btn @click="createComment" size="x-large">댓글달기</v-btn>
+          <v-btn @click="createComment" size="x-large">등록</v-btn>
         </v-col>
       </v-row>
       <div
         class="comment"
         v-for="(comment, idx) in article.comment_set"
         :key="comment.id"
+        style="padding: 9px"
       >
         <Comment :comment="comment" :idx="idx" />
       </div>

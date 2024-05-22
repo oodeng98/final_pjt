@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h1>정기적금</h1>
     <ProductList
       :products-props="store.savings"
       :bank-name-props="store.savingBanks"

@@ -7,18 +7,23 @@
             >mdi-home-variant</v-icon
           >
         </v-btn>
+        <v-btn :to="{ name: 'profile' }" v-if="user">
+          <span v-if="user?.nickname" @click="router.push({ name: 'profile' })">
+            안녕하세요, {{ user.nickname }}님
+          </span>
+          <span v-else-if="user" @click="router.push({ name: 'profile' })">
+            안녕하세요, {{ user.username }}님
+          </span>
+        </v-btn>
       </v-toolbar-title>
       <v-toolbar-items class="hidden-xs">
-        <v-btn :to="{ name: 'community' }">Community</v-btn>
+        <v-btn :to="{ name: 'community' }">자유 게시판</v-btn>
         <v-btn :to="{ name: 'exchangeRate' }">환율 계산기</v-btn>
         <v-btn :to="{ name: 'products' }">Product</v-btn>
         <v-btn :to="{ name: 'map' }">Map</v-btn>
         <template v-if="user">
           <v-btn class="bg-grey-darken-3" @click="logOut">logOut</v-btn>
-          <v-btn
-            class="bg-grey-darken-3"
-            :to="{ name: 'profile', params: { user_id: 1 } }"
-          >
+          <v-btn class="bg-grey-darken-3" :to="{ name: 'profile' }">
             My Page
           </v-btn>
         </template>
@@ -28,16 +33,6 @@
         </template>
       </v-toolbar-items>
     </v-toolbar>
-    <div>
-      <v-col class="userInfo text-end">
-        <span class="text-h4" v-if="user?.nickname">
-          Welcome, {{ user.nickname }}
-        </span>
-        <span class="text-h4" v-else-if="user">
-          Welcome, {{ user.username }}
-        </span>
-      </v-col>
-    </div>
     <v-container>
       <RouterView />
     </v-container>
@@ -57,4 +52,9 @@ const logOut = () => {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.v-toolbar-title > span {
+  margin: auto;
+  font-size: 100px;
+}
+</style>

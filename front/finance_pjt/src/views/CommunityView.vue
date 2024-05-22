@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-row class="align-center" style="margin-bottom: 20px">
       <v-col>
-        <span class="text-h4">Community</span>
+        <span class="text-h4">자유 게시판</span>
       </v-col>
       <v-spacer></v-spacer>
       <v-col class="text-right">

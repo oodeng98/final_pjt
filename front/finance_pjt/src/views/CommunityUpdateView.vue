@@ -36,7 +36,7 @@ const updateArticle = function () {
     },
   })
     .then((res) => {
-      router.push({ name: "community" });
+      router.go(-1);
     })
     .catch((err) => console.log(err));
 };

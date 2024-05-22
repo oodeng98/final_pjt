@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h1>정기예금</h1>
     <ProductList
       :products-props="store.deposits"
       :bank-name-props="store.depositBanks"
