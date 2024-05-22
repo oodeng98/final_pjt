@@ -13,6 +13,16 @@
     <input type="text" v-model="foreignCurrency" @input="input1" />
     <br />
     <input type="text" v-model="koreaCurrency" @input="input2" />
+    <v-text-field
+      :label="country"
+      v-model="foreignCurrency"
+      @input="input1"
+    ></v-text-field>
+    <v-text-field
+      label="원"
+      v-model="koreaCurrency"
+      @input="input2"
+    ></v-text-field>
   </div>
 </template>
 
