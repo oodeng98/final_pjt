@@ -19,18 +19,18 @@
       <br />
       <v-text-field
         variant="outlined"
-        label="대한민국 원"
-        type="text"
-        v-model="foreignCurrency"
-        @input="input1"
-        :disabled="selectCountry === null"
-      />
-      <v-text-field
-        variant="outlined"
         :label="selectCountry"
         type="text"
         v-model="koreaCurrency"
         @input="input2"
+        :disabled="selectCountry === null"
+      />
+      <v-text-field
+        variant="outlined"
+        label="대한민국 원"
+        type="text"
+        v-model="foreignCurrency"
+        @input="input1"
         :disabled="selectCountry === null"
       />
     </v-col>
