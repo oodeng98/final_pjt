@@ -1,10 +1,37 @@
 <template>
   <div>
-    <h1>{{ category }}</h1>
-    <button v-if="communityStore.token" @click="subscribe">
-      {{ comment }}
-    </button>
-    {{ product[0] }}
+    <div style="display: flex">
+      <h2 style="margin-right: 5px">{{ category }}</h2>
+    </div>
+    <v-card
+      :title="product[0]?.kor_co_nm + ' ' + product[0]?.fin_prdt_nm"
+      variant="outlined"
+    >
+      <v-card-text>
+        <div><strong>가입 방법: </strong>{{ product[0]?.join_way }}</div>
+        <div>
+          <strong>우대 조건</strong>
+          <ul>
+            <template v-for="condition in product[0]?.spcl_cnd.split(')')">
+              <li v-if="condition.trim()" style="margin-left: 30px">
+                {{ condition.trim() }})
+              </li>
+            </template>
+          </ul>
+        </div>
+        <div><strong>가입 조건: </strong>{{ product[0]?.join_member }}</div>
+        <div><strong>기타 유의사항: </strong>{{ product[0]?.join_member }}</div>
+      </v-card-text>
+      <v-card-actions>
+        <v-btn
+          v-if="communityStore.token"
+          @click="subscribe"
+          variant="outlined"
+          width="70px"
+          >{{ comment }}</v-btn
+        >
+      </v-card-actions>
+    </v-card>
   </div>
 </template>
 
@@ -78,13 +105,16 @@ const subscribe = function () {
     },
   })
     .then((res) => {
-      console.log(res);
       router.go(-1);
     })
-    .catch((res) => {
-      console.log(res);
+    .catch((err) => {
+      console.log(err);
     });
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.v-card-text > div {
+  padding: 2px;
+}
+</style>
