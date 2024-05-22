@@ -3,15 +3,15 @@
     <!-- Carousel Section -->
     <v-carousel>
       <v-carousel-item
-        src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+        src="https://www.ciokorea.com/files/itworld/ITW_202304_01/GettyImages-1273700255.jpg"
         cover
       ></v-carousel-item>
       <v-carousel-item
-        src="https://cdn.vuetifyjs.com/images/cards/hotel.jpg"
+        src="https://live.lge.co.kr/wp-content/uploads/2020/06/AI%EC%9A%A9%EC%96%B4%EC%82%AC%EC%A0%84_00.jpg"
         cover
       ></v-carousel-item>
       <v-carousel-item
-        src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
+        src="https://www.hellot.net/data/photos/20231252/art_17039301013143_a3d6ec.jpg"
         cover
       ></v-carousel-item>
     </v-carousel>
