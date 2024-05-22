@@ -1,22 +1,23 @@
 <template>
   <div>
     <h1>Map</h1>
-    <div>
-      <select v-model="selectCity">
-        <option selected>서울특별시</option>
-        <option v-for="city in cities">{{ city }}</option>
-      </select>
-      <select v-model="selectSubCity">
-        <option v-for="subCity in subCities[selectCity]">{{ subCity }}</option>
-      </select>
-      <select v-model="place">
-        <option v-for="bankName in places">{{ bankName.place_name }}</option>
-      </select>
+    <div class="d-flex justify-start w-75">
+      <v-select v-model="selectCity" :items="cities">
+      </v-select>
+      <v-select v-model="selectSubCity" :items="subCities[selectCity]" class="mx-5">
+      </v-select>
+      <v-select v-model="place" :items="places.map((element) => element.place_name)" class="mx-5">
+      </v-select>
     </div>
-    <div id="map" style="width: 500px; height: 400px"></div>
-    <ul>
-      <li v-if="place.length > 0">{{ placeInfo }}</li>
-    </ul>
+    <div class="d-flex">
+      <div id="map" style="width: 500px; height: 400px"></div>
+      <div v-if="place.length > 0" class="mx-5">
+        <h2>{{ placeInfo[0].place_name }}</h2>
+        <h3>상세정보</h3>
+        <p><strong>주소</strong> : {{ placeInfo[0].road_address_name }}</p>
+        <p><strong>전화번호</strong> : {{ placeInfo[0].phone }}</p>
+      </div>
+    </div>
   </div>
 </template>
 
