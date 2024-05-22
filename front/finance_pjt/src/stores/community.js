@@ -81,6 +81,7 @@ export const useCommunityStore = defineStore("community", () => {
       router.push({name:'community'})
     }).catch(err=> {
       console.log(err)
+      alert("로그인에 실패했습니다.");
     })
   }
 

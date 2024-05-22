@@ -166,7 +166,7 @@ def gpt(request):
         return Response({'error': f'Unicode decode error: {str(e)}'}, status=500)
 
     if request.method == 'GET':
-      prev_questions = [question.text for question in Question.objects.all().order_by('-created_at')[:5]]  
+      prev_questions = [question.text for question in Question.objects.all().order_by('-created_at')[:1]]  
       query = request.GET.get('query')
       messages = [{
           "role": "user",
