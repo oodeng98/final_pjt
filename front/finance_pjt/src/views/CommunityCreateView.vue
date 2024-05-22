@@ -30,16 +30,14 @@ const createArticle = function () {
 </script>
 
 <template>
-  <h1>게시글 작성</h1>
-  <form @submit.prevent="createArticle">
-    <label for="title">제목 : </label>
-    <input type="text" id="title" v-model="title" />
-
-    <label for="content">내용 : </label>
-    <input type="text" id="content" v-model="content" />
-
-    <button type="submit">create</button>
-  </form>
+  <v-container>
+    <div class="text-h4 mb-5">게시글 작성</div>
+    <v-form @submit.prevent="createArticle">
+      <v-text-field v-model="title" label="제목" outlined></v-text-field>
+      <v-textarea v-model="content" label="내용" outlined></v-textarea>
+      <v-btn color="primary" type="submit">게시글 작성</v-btn>
+    </v-form>
+  </v-container>
 </template>
 
 <style scoped></style>

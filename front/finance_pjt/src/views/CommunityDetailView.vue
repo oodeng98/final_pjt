@@ -1,34 +1,51 @@
 <template>
-  <div class="articleDetail" v-if="article">
-    <button @click="router.go(-1)">뒤로가기</button>
-    <h2>{{ article.title }}</h2>
-    <p>article_id : {{ article.id }}</p>
-    <p>내용 : {{ article.content }}</p>
-    <p>작성자 : {{ article.user.username }}</p>
-    <p>작성일자 : {{ article.created_at }}</p>
-    <p>수정일자 : {{ article.updated_at }}</p>
-    <p v-if="likes">좋아요 : {{ likes.length }}</p>
-    <p>
-      <button v-if="!hasLiked" @click="likeArticle">좋아요</button>
-      <button v-else @click="likeArticle">좋아요 취소</button>
-      <span v-if="article.user.id === store.userInfo.id">
-        <button @click="deleteArticle">글 삭제</button>
-        <button @click="updateArticle">글 수정</button>
-      </span>
-    </p>
-    <form @submit.prevent="createComment">
-      <label for="content">댓글 작성 : </label>
-      <input type="text" id="content" v-model="content" />
-      <button type="submit">댓글달기</button>
-    </form>
-    <div
-      class="comment"
-      v-for="(comment, idx) in article.comment_set"
-      :key="comment.id"
-    >
-      <Comment :comment="comment" :idx="idx" />
-    </div>
-  </div>
+  <v-container class="border-double">
+    <v-col class="articleDetail" v-if="article">
+      <v-btn class="bg-red" @click="router.go(-1)">뒤로가기</v-btn>
+      <div class="text-h2">{{ article.title }}</div>
+      <div class="text-h4">{{ article.user.username }}</div>
+      <div class="content">
+        <p>{{ article.content }}</p>
+      </div>
+      <p>작성일자 : {{ article.created_at.slice(0, 10) }}</p>
+      <p>수정일자 : {{ article.updated_at.slice(0, 10) }}</p>
+      <p v-if="likes">좋아요 : {{ likes.length }}</p>
+      <br />
+      <p>
+        <v-btn v-if="!hasLiked" @click="likeArticle" class="bg-red"
+          >좋아요</v-btn
+        >
+        <v-btn v-else @click="likeArticle" class="bg-red">좋아요 취소</v-btn>
+        <span v-if="article.user.id === store.userInfo.id">
+          <v-btn @click="deleteArticle">글 삭제</v-btn>
+          <v-btn @click="updateArticle">글 수정</v-btn>
+        </span>
+      </p>
+      <v-row class="align-center justify-center">
+        <v-col cols="10">
+          <form @submit.prevent="createComment">
+            <br />
+            <v-text-field
+              label="댓글 작성"
+              type="text"
+              id="content"
+              v-model="content"
+            />
+          </form>
+        </v-col>
+        <v-col cols="2">
+          <v-btn @click="createComment" size="x-large">댓글달기</v-btn>
+        </v-col>
+      </v-row>
+      <div
+        class="comment"
+        v-for="(comment, idx) in article.comment_set"
+        :key="comment.id"
+      >
+        <Comment :comment="comment" :idx="idx" />
+      </div>
+    </v-col>
+  </v-container>
 </template>
 
 <script setup>
@@ -130,9 +147,36 @@ const likeArticle = () => {
 </script>
 
 <style scoped>
+.articleDetail {
+  padding: 1rem;
+}
+
+.text-h2 {
+  margin: 1rem 0;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.text-h4 {
+  margin: 1rem 0;
+  font-size: 18px;
+}
+
+.content {
+  margin: 1rem 0;
+}
+
 .comment {
-  border: 1px solid black;
+  border: 1px solid #ccc;
   padding: 1rem;
   margin: 1rem 0;
 }
+
+.v-btn {
+  margin-right: 1rem;
+}
+/* .v-container {
+  border: 1px solid black;
+  border-radius: 3%;
+} */
 </style>
