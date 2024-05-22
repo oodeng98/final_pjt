@@ -1,11 +1,27 @@
 <template>
-  <div>
-    <h1>Community</h1>
-    <button @click="communityCreate">게시글 작성</button>
-    <div v-for="article in articles" class="article" :key="article.id">
-      <Article :article="article" />
-    </div>
-  </div>
+  <v-container fluid>
+    <v-row class="align-center" style="margin-bottom: 20px">
+      <v-col>
+        <span class="text-h4">Community</span>
+      </v-col>
+      <v-spacer></v-spacer>
+      <v-col class="text-right">
+        <v-btn @click="communityCreate" class="bg-red">게시글 작성</v-btn>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col
+        v-for="article in articles"
+        :key="article.id"
+        cols="12"
+        sm="6"
+        md="4"
+        class="article"
+      >
+        <Article :article="article" />
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script setup>
@@ -33,8 +49,12 @@ const communityCreate = () => {
 
 <style scoped>
 .article {
-  border: 1px solid black;
-  margin: 1rem 0;
+  /* margin: 1rem; */
   padding: 1rem;
+}
+
+.v-card {
+  height: 100%;
+  max-height: 400px; /* 최대 높이 설정 */
 }
 </style>

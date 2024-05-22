@@ -1,5 +1,6 @@
 <template>
   <div>
+    <<<<<<< HEAD
     <div style="display: flex">
       <h2 style="margin-right: 5px">{{ category }}</h2>
     </div>
@@ -33,21 +34,23 @@
       </v-card-actions>
     </v-card>
   </div>
+  {{ product[0] }}
 </template>
 
 <script setup>
 import { ref, onMounted } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import axios from "axios";
+import { VDateInput } from "vuetify/lib/labs/components.mjs";
 
 import { useFinanceStore } from "@/stores/finance";
 import { useCommunityStore } from "@/stores/community";
-import router from "@/router";
 
 const financeStore = useFinanceStore();
 const communityStore = useCommunityStore();
 
 const route = useRoute();
+const router = useRouter();
 const { product_id } = route.params;
 
 const product = ref([]);
@@ -55,6 +58,17 @@ const category = ref(null);
 const comment = ref("가입하기");
 
 let isSubscribe = true;
+
+const balance = ref(null);
+const createdAt = ref(null);
+const month = ref(null);
+const rates = ref([]);
+const rules = ref([
+  (value) => {
+    if (parseInt(balance.value)) return true;
+    return "정수를 입력하세요.";
+  },
+]);
 
 onMounted(() => {
   product.value = financeStore.deposits.filter(
@@ -66,6 +80,19 @@ onMounted(() => {
       (element) => element.id == product_id
     );
     category.value = "정기적금 상세";
+  }
+
+  if (product.value[0].rates[4]) {
+    rates.value.push({ 6: product.value[0].rates[4] });
+  }
+  if (product.value[0].rates[6]) {
+    rates.value.push({ 12: product.value[0].rates[6] });
+  }
+  if (product.value[0].rates[8]) {
+    rates.value.push({ 24: product.value[0].rates[8] });
+  }
+  if (product.value[0].rates[10]) {
+    rates.value.push({ 36: product.value[0].rates[10] });
   }
 
   axios({
@@ -94,11 +121,29 @@ onMounted(() => {
 });
 
 const subscribe = function () {
+  let interestRate;
+  for (const rate of rates.value) {
+    if (Object.keys(rate)[0] === month.value) {
+      interestRate = Object.values(rate)[0];
+    }
+  }
+
   axios({
     method: "post",
     url: `${financeStore.BASE_URL}/finance/products/subscribe/`,
     data: {
       product: product_id,
+      balance: balance.value,
+      profit:
+        ((balance.value *
+          ((new Date().getFullYear() -
+            new Date(createdAt.value).getFullYear()) *
+            12 +
+            new Date().getMonth() -
+            new Date(createdAt.value).getMonth())) /
+          12) *
+        (interestRate / 100),
+      created_at: new Date(createdAt.value).toISOString(),
     },
     headers: {
       Authorization: `Token ${communityStore.token}`,

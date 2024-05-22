@@ -1,14 +1,18 @@
 from django.shortcuts import render
 
+import os
+import requests
+from openai import OpenAI
 from rest_framework.decorators import api_view
 from django.contrib.auth.decorators import login_required
 from rest_framework.response import Response
 from rest_framework import status
 from django.conf import settings
-import requests
 
 from .serializers import ExchangerateSerializer, ProductListSerializer, SubscribeSerializer
 from .models import Product, User_Product, Question
+
+FILE_PATH = os.path.join(os.path.dirname(__file__), 'train.txt')
 
 # Create your views here.
 @api_view(['GET'])
@@ -128,8 +132,6 @@ def subscribe(request):
   if request.method == 'POST':
     product_id = request.data['product']
     product = Product.objects.get(pk=product_id)
-    data = request.data  # 추후 수정
-    data['balance'] = 5000000  # 추후 수정
     subscribes = User_Product.objects.filter(user=request.user, product=product)
     if subscribes:
       subscribes.delete()
@@ -141,7 +143,6 @@ def subscribe(request):
         return Response(status=status.HTTP_200_OK)
   elif request.method == 'GET':
     product_id = request.GET.get('product')
-    print(product_id)
     product = Product.objects.get(pk=product_id)
     subscribes = User_Product.objects.filter(user=request.user, product=product_id)
     serializer = SubscribeSerializer(subscribes, many=True)
@@ -155,15 +156,10 @@ def subscribe_list(request):
     print(serializer.data)
     return Response(serializer.data, status=status.HTTP_200_OK)
   
-from openai import OpenAI
-import os
-
-file_path = os.path.join(os.path.dirname(__file__), 'train.txt')
-
 @api_view(['GET'])
 def gpt(request):
     try:
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open(FILE_PATH, 'r', encoding='utf-8') as f:
           file_content = f.read()
         f.close()
     except UnicodeDecodeError as e:
@@ -185,7 +181,6 @@ def gpt(request):
         "role": "user",
         "content": "마크다운 양식 없이 출력해줘."
         })
-      print(messages)
       
       client = OpenAI(api_key=settings.GPT_KEY)
       completion = client.chat.completions.create(

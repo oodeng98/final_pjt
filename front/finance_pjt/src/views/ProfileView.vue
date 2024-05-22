@@ -98,12 +98,12 @@ onMounted(() => {
 });
 
 const initChart = (data) => {
-  // console.log(data);
   const labels = [];
   const profits = [];
   data.forEach((element) => {
+    console.log(element)
     labels.push(element.product.fin_prdt_nm);
-    profits.push(element.balance);
+    profits.push(element.profit);
   });
 
   const ctx = barChart.value.getContext("2d");

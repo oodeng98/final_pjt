@@ -43,18 +43,16 @@ const updateArticle = function () {
 </script>
 
 <template>
-  <h1>게시글 수정</h1>
-  <div class="container" v-if="article">
-    <form @submit.prevent="updateArticle">
-      <label for="title">제목 : </label>
-      <input type="text" id="title" v-model="article.title" />
-
-      <label for="content">내용 : </label>
-      <input type="text" id="content" v-model="article.content" />
-
-      <button type="submit">update</button>
-    </form>
-  </div>
+  <v-container>
+    <div class="text-h4 mb-5">게시글 수정</div>
+    <div v-if="article">
+      <v-form @submit.prevent="updateArticle">
+        <v-text-field v-model="article.title" label="제목"></v-text-field>
+        <v-textarea v-model="article.content" label="내용"></v-textarea>
+        <v-btn color="primary" type="submit">게시글 수정</v-btn>
+      </v-form>
+    </div>
+  </v-container>
 </template>
 
 <style scoped></style>
