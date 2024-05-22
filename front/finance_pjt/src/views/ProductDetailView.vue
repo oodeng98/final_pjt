@@ -1,24 +1,61 @@
 <template>
   <div>
     <h1>{{ category }}</h1>
-    <button v-if="communityStore.token" @click="subscribe">{{ comment }}</button>
-    {{ product[0] }}
+    <v-btn v-if="communityStore.token && comment === '가입하기'" @click="balance = null">
+      {{ comment }}
+      <v-dialog activator="parent">
+        <template v-slot:default="{ isActive }">
+          <v-card>
+            <v-card-title class="d-flex justify-space-between align-center">
+              <div>가입 정보를 입력하시오.</div>
+
+              <v-btn icon="mdi-close" variant="text" @click="isActive.value = false"></v-btn>
+            </v-card-title>
+
+            <v-divider></v-divider>
+
+            <v-card-text>
+              <div>가입 금액</div>
+              <v-text-field variant="outlined" v-model="balance" :rules="rules"></v-text-field>
+              <div>가입 시점</div>
+              <v-date-input v-model="createdAt" max-width="368"></v-date-input>
+              <div>가입 기간</div>
+              <v-radio-group v-model="month">
+                <v-radio v-for="rate in rates" :label="Object.keys(rate)[0]" :value="Object.keys(rate)[0]"></v-radio>
+              </v-radio-group>
+            </v-card-text>
+
+            <v-divider class="mt-2"></v-divider>
+
+            <v-card-actions>
+              <v-btn text="Cancel" @click="isActive.value = false"></v-btn>
+              <v-btn color="primary" text="Send" @click="isActive.value = false, subscribe()"></v-btn>
+            </v-card-actions>
+          </v-card>
+        </template>
+      </v-dialog>
+    </v-btn>
+    <v-btn v-if="communityStore.token && comment === '해지하기'" @click="subscribe">
+      {{ comment }}
+    </v-btn>
   </div>
+  {{ product[0] }}
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import axios from 'axios'
+import { VDateInput } from 'vuetify/lib/labs/components.mjs'
 
 import { useFinanceStore } from '@/stores/finance'
 import { useCommunityStore } from '@/stores/community'
-import router from '@/router'
 
 const financeStore = useFinanceStore()
 const communityStore = useCommunityStore()
 
 const route = useRoute()
+const router = useRouter()
 const { product_id } = route.params
 
 const product = ref([])
@@ -27,12 +64,36 @@ const comment = ref('가입하기')
 
 let isSubscribe = true
 
+const balance = ref(null)
+const createdAt = ref(null)
+const month = ref(null)
+const rates = ref([])
+const rules = ref([
+  value => {
+    if (parseInt(balance.value)) return true
+    return '정수를 입력하세요.'
+  }
+])
+
 onMounted(() => {
   product.value = financeStore.deposits.filter((element) => element.id == product_id)
   category.value = '정기예금 상세'
   if (product.value.length === 0) {
     product.value = financeStore.savings.filter((element) => element.id == product_id)
     category.value = '정기적금 상세'
+  }
+
+  if (product.value[0].rates[4]) {
+    rates.value.push({ 6: product.value[0].rates[4] })
+  }
+  if (product.value[0].rates[6]) {
+    rates.value.push({ 12: product.value[0].rates[6] })
+  }
+  if (product.value[0].rates[8]) {
+    rates.value.push({ 24: product.value[0].rates[8] })
+  }
+  if (product.value[0].rates[10]) {
+    rates.value.push({ 36: product.value[0].rates[10] })
   }
 
   axios({
@@ -61,18 +122,27 @@ onMounted(() => {
 })
 
 const subscribe = function () {
+  let interestRate
+  for (const rate of rates.value) {
+    if (Object.keys(rate)[0] === month.value) {
+      interestRate = Object.values(rate)[0]
+    }
+  }
+
   axios({
     method: 'post',
     url: `${financeStore.BASE_URL}/finance/products/subscribe/`,
     data: {
-      product: product_id
+      product: product_id,
+      balance: balance.value,
+      profit: balance.value * ((new Date().getFullYear() - new Date(createdAt.value).getFullYear()) * 12 + new Date().getMonth() - new Date(createdAt.value).getMonth()) / 12 * (interestRate / 100),
+      created_at: new Date(createdAt.value).toISOString()
     },
     headers: {
       Authorization: `Token ${communityStore.token}`
     }
   })
     .then(res => {
-      console.log(res)
       router.go(-1)
     })
     .catch(res => {

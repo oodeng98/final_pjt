@@ -34,9 +34,6 @@ const queryGPT = function () {
     params: {
       query: query.value,
     },
-    // headers: {
-    //   Authorization: `Token ${communityStore.token}`
-    // }
   })
     .then((res) => {
       answer.value = res.data.response;
