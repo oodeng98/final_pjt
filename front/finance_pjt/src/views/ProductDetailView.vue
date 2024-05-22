@@ -3,10 +3,7 @@
     <div style="display: flex">
       <h2 style="margin-right: 5px">{{ category }}</h2>
     </div>
-    <v-card
-      :title="product[0]?.kor_co_nm + ' ' + product[0]?.fin_prdt_nm"
-      variant="outlined"
-    >
+    <v-card :title="product[0]?.kor_co_nm + ' ' + product[0]?.fin_prdt_nm" variant="outlined">
       <v-card-text>
         <div><strong>가입 방법: </strong>{{ product[0]?.join_way }}</div>
         <div>
@@ -14,7 +11,7 @@
           <ul>
             <template v-for="condition in product[0]?.spcl_cnd.split(')')">
               <li v-if="condition.trim()" style="margin-left: 30px">
-                {{ condition.trim() }})
+                {{ condition.trim() }}
               </li>
             </template>
           </ul>
@@ -23,13 +20,43 @@
         <div><strong>기타 유의사항: </strong>{{ product[0]?.join_member }}</div>
       </v-card-text>
       <v-card-actions>
-        <v-btn
-          v-if="communityStore.token"
-          @click="subscribe"
-          variant="outlined"
-          width="70px"
-          >{{ comment }}</v-btn
-        >
+        <v-btn v-if="communityStore.token && comment === '가입하기'" variant="outlined" width="70px">
+          {{ comment }}
+          <v-dialog activator="parent">
+            <template v-slot:default="{ isActive }">
+              <v-card>
+                <v-card-title class="d-flex justify-space-between align-center">
+                  <div>가입 정보를 입력하시오.</div>
+
+                  <v-btn icon="mdi-close" variant="text" @click="isActive.value = false"></v-btn>
+                </v-card-title>
+
+                <v-divider></v-divider>
+
+                <v-card-text>
+                  <div>가입 금액</div>
+                  <v-text-field variant="outlined" v-model="balance" :rules="rules"></v-text-field>
+                  <div>가입 시점</div>
+                  <v-date-input v-model="createdAt" max-width="368"></v-date-input>
+                  <div>가입 기간</div>
+                  <v-radio-group v-model="month">
+                    <v-radio v-for="rate in rates" :label="Object.keys(rate)[0]" :value="Object.keys(rate)[0]"></v-radio>
+                  </v-radio-group>
+                </v-card-text>
+
+                <v-divider class="mt-2"></v-divider>
+
+                <v-card-actions>
+                  <v-btn text="Cancel" @click="isActive.value = false"></v-btn>
+                  <v-btn color="primary" text="Send" @click="isActive.value = false, subscribe()"></v-btn>
+                </v-card-actions>
+              </v-card>
+            </template>
+          </v-dialog>
+        </v-btn>
+        <v-btn v-if="communityStore.token && comment === '해지하기'" @click="subscribe"  variant="outlined" width="70px">
+          {{ comment }}
+        </v-btn>
       </v-card-actions>
     </v-card>
   </div>
@@ -157,7 +184,7 @@ const subscribe = function () {
 </script>
 
 <style scoped>
-.v-card-text > div {
+.v-card-text>div {
   padding: 2px;
 }
 </style>
