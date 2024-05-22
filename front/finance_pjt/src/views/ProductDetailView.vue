@@ -1,6 +1,5 @@
 <template>
   <div>
-    <<<<<<< HEAD
     <div style="display: flex">
       <h2 style="margin-right: 5px">{{ category }}</h2>
     </div>
