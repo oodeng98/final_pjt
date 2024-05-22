@@ -40,7 +40,7 @@
                   <v-date-input v-model="createdAt" max-width="368"></v-date-input>
                   <div>가입 기간</div>
                   <v-radio-group v-model="month">
-                    <v-radio v-for="rate in rates" :label="Object.keys(rate)[0]" :value="Object.keys(rate)[0]"></v-radio>
+                    <v-radio v-for="rate in rates" :label="Object.keys(rate)[0] + '개월'" :value="Object.keys(rate)[0]"></v-radio>
                   </v-radio-group>
                 </v-card-text>
 
