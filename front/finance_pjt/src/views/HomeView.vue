@@ -8,7 +8,7 @@
       <input type="submit">
     </form>
     <p>{{ answer }}</p>
-    <RouterView />
+    <!-- <RouterView /> -->
   </div>
 </template>
 
@@ -33,9 +33,6 @@ const queryGPT = function () {
     params: {
       query: query.value
     },
-    // headers: {
-    //   Authorization: `Token ${communityStore.token}`
-    // }
   })
     .then(res => {
       answer.value = res.data.response

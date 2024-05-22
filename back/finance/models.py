@@ -40,7 +40,8 @@ class User_Product(models.Model):
   user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
   product = models.ForeignKey("Product", on_delete=models.CASCADE)
   balance = models.IntegerField()
-  created_at = models.DateTimeField(auto_now_add=True)
+  profit = models.FloatField()
+  created_at = models.DateTimeField()
   
 class Question(models.Model):
   text = models.TextField()
