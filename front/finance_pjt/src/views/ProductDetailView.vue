@@ -1,84 +1,90 @@
 <template>
   <div>
     <h1>{{ category }}</h1>
-    <button v-if="communityStore.token" @click="subscribe">{{ comment }}</button>
+    <button v-if="communityStore.token" @click="subscribe">
+      {{ comment }}
+    </button>
     {{ product[0] }}
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
-import { useRoute } from 'vue-router'
-import axios from 'axios'
+import { ref, onMounted } from "vue";
+import { useRoute } from "vue-router";
+import axios from "axios";
 
-import { useFinanceStore } from '@/stores/finance'
-import { useCommunityStore } from '@/stores/community'
-import router from '@/router'
+import { useFinanceStore } from "@/stores/finance";
+import { useCommunityStore } from "@/stores/community";
+import router from "@/router";
 
-const financeStore = useFinanceStore()
-const communityStore = useCommunityStore()
+const financeStore = useFinanceStore();
+const communityStore = useCommunityStore();
 
-const route = useRoute()
-const { product_id } = route.params
+const route = useRoute();
+const { product_id } = route.params;
 
-const product = ref([])
-const category = ref(null)
-const comment = ref('가입하기')
+const product = ref([]);
+const category = ref(null);
+const comment = ref("가입하기");
 
-let isSubscribe = true
+let isSubscribe = true;
 
 onMounted(() => {
-  product.value = financeStore.deposits.filter((element) => element.id == product_id)
-  category.value = '정기예금 상세'
+  product.value = financeStore.deposits.filter(
+    (element) => element.id == product_id
+  );
+  category.value = "정기예금 상세";
   if (product.value.length === 0) {
-    product.value = financeStore.savings.filter((element) => element.id == product_id)
-    category.value = '정기적금 상세'
+    product.value = financeStore.savings.filter(
+      (element) => element.id == product_id
+    );
+    category.value = "정기적금 상세";
   }
 
   axios({
-    method: 'get',
+    method: "get",
     url: `${financeStore.BASE_URL}/finance/products/subscribe/`,
     params: {
-      product: product_id
+      product: product_id,
     },
     headers: {
-      Authorization: `Token ${communityStore.token}`
-    }
+      Authorization: `Token ${communityStore.token}`,
+    },
   })
-    .then(res => {
+    .then((res) => {
       if (0 < res.data.length) {
-        isSubscribe = true
+        isSubscribe = true;
       } else {
-        isSubscribe = false
+        isSubscribe = false;
       }
       if (isSubscribe) {
-        comment.value = '해지하기'
+        comment.value = "해지하기";
       }
     })
-    .catch(err => {
-      console.log(err)
-    })
-})
+    .catch((err) => {
+      console.log(err);
+    });
+});
 
 const subscribe = function () {
   axios({
-    method: 'post',
+    method: "post",
     url: `${financeStore.BASE_URL}/finance/products/subscribe/`,
     data: {
-      product: product_id
+      product: product_id,
     },
     headers: {
-      Authorization: `Token ${communityStore.token}`
-    }
+      Authorization: `Token ${communityStore.token}`,
+    },
   })
-    .then(res => {
-      console.log(res)
-      router.go(-1)
+    .then((res) => {
+      console.log(res);
+      router.go(-1);
     })
-    .catch(res => {
-      console.log(res)
-    })
-}
+    .catch((res) => {
+      console.log(res);
+    });
+};
 </script>
 
 <style scoped></style>
