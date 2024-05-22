@@ -5,49 +5,65 @@
     </h1>
 
     <div class="infoView" v-show="!updateView">
-      <v-btn
-        @click="
-          () => {
-            updateView = !updateView;
-          }
-        "
-        >정보 수정</v-btn
-      >
-      <p>회원 번호 : {{ info.id }}</p>
-      <p>ID : {{ info.username }}</p>
-      <p>닉네임 : {{ info.nickname }}</p>
-      <p>email : {{ info.email }}</p>
-      <p>first name : {{ info.first_name }}</p>
-      <p>last name : {{ info.last_name }}</p>
+      <v-card title="기본 정보" variant="outlined">
+        <v-card-text>
+          <p>회원 번호 : {{ info.id }}</p>
+          <p>ID : {{ info.username }}</p>
+          <p>닉네임 : {{ info.nickname }}</p>
+          <p>email : {{ info.email }}</p>
+          <p>first name : {{ info.first_name }}</p>
+          <p>last name : {{ info.last_name }}</p>
+          <br />
+          <p>가입한 상품들</p>
+          <ul>
+            <li
+              v-for="subscribe in subscribes"
+              :key="subscribe.id"
+              @click="
+                router.push({
+                  name: 'detail',
+                  params: { product_id: subscribe.product.id },
+                })
+              "
+            >
+              {{ subscribe.product.fin_prdt_nm }}
+            </li>
+          </ul>
+        </v-card-text>
+        <v-card-actions>
+          <v-btn
+            @click="
+              () => {
+                updateView = !updateView;
+              }
+            "
+            variant="outlined"
+            >정보 수정</v-btn
+          >
+        </v-card-actions>
+      </v-card>
     </div>
     <div class="changeView" v-show="updateView">
-      <v-btn
-        @click="
-          () => {
-            updateView = !updateView;
-          }
-        "
-        >정보 보기</v-btn
-      >
-      <h3>기본 정보 수정</h3>
       <form @submit.prevent="update">
+        <h4>기본 정보 수정</h4>
         <v-text-field label="Email" v-model="email"></v-text-field>
         <v-text-field label="First Name" v-model="first_name"></v-text-field>
         <v-text-field label="Last Name" v-model="last_name"></v-text-field>
         <v-text-field label="닉네임" v-model="nickname"></v-text-field>
-        <v-btn type="submit">업데이트</v-btn>
+        <v-btn type="submit" variant="outlined" style="margin-right: 4px"
+          >업데이트</v-btn
+        >
+        <v-btn
+          @click="
+            () => {
+              updateView = !updateView;
+            }
+          "
+          variant="outlined"
+          >돌아가기</v-btn
+        >
       </form>
     </div>
-    <p>가입한 상품들</p>
-    <ul>
-      <li v-for="subscribe in subscribes" :key="subscribe.id">
-        <RouterLink
-          :to="{ name: 'detail', params: { product_id: subscribe.product.id } }"
-        >
-          {{ subscribe.product.fin_prdt_nm }}
-        </RouterLink>
-      </li>
-    </ul>
   </div>
   <div class="chart">
     <canvas ref="barChart"></canvas>
@@ -64,6 +80,7 @@ import axios from "axios";
 import { computed } from "vue";
 
 import { Chart } from "chart.js/auto";
+import router from "@/router";
 
 const subscribes = ref([]);
 const route = useRoute();
@@ -95,13 +112,15 @@ onMounted(() => {
     });
   email.value = communityStore.userInfo.email;
   nickname.value = communityStore.userInfo.nickname;
+  first_name.value = communityStore.userInfo.first_name;
+  last_name.value = communityStore.userInfo.last_name;
 });
 
 const initChart = (data) => {
   const labels = [];
   const profits = [];
   data.forEach((element) => {
-    console.log(element)
+    console.log(element);
     labels.push(element.product.fin_prdt_nm);
     profits.push(element.profit);
   });
@@ -159,4 +178,14 @@ const update = () => {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.v-card-text > p {
+  font-size: 18px;
+  padding: 2px;
+}
+
+li {
+  margin-left: 40px;
+  font-size: 18px;
+}
+</style>

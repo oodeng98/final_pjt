@@ -33,7 +33,6 @@
       </v-card-actions>
     </v-card>
   </div>
-  {{ product[0] }}
 </template>
 
 <script setup>

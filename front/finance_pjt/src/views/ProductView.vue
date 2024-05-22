@@ -33,6 +33,7 @@ onMounted(() => {
   if (store.deposits.length === 0 && store.savings.length == 0) {
     store.getProducts();
   }
+  // router.push({ name: "deposit" });
 });
 </script>
 
