@@ -164,8 +164,10 @@ def gpt(request):
         return Response({'error': f'Unicode decode error: {str(e)}'}, status=500)
 
     if request.method == 'GET':
-      prev_questions = [question.text for question in Question.objects.all().order_by('-created_at')[:1]]  
+      # prev_questions = [Question.objects.all().order_by('-created_at')[0].text] 
+      prev_questions = [''] 
       query = request.GET.get('query')
+      print(query) 
       messages = [{
           "role": "user",
           "content": file_content + '위의 상품들 중에 검색을 하고 싶어.'

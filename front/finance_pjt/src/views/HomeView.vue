@@ -79,10 +79,10 @@
           rounded="0"
           group
         >
-          <v-btn value="인터넷"> 인터넷 </v-btn>
-          <v-btn value="스마트폰"> 스마트폰 </v-btn>
-          <v-btn value="영업점"> 영업점 </v-btn>
-          <v-btn value="상관없음"> 상관없음 </v-btn>
+          <v-btn value="가입 방식은 인터넷"> 인터넷 </v-btn>
+          <v-btn value="가입 방식은 스마트폰"> 스마트폰 </v-btn>
+          <v-btn value="가입 방식은 영업점"> 영업점 </v-btn>
+          <v-btn value=""> 상관없음 </v-btn>
         </v-btn-toggle>
       </v-card-text>
       <v-card-actions>
@@ -121,8 +121,8 @@ const communityStore = useCommunityStore();
 const preference = ref({
   bank: "",
   join: "",
-  month: "",
-  type: "예금상품",
+  month: "3개월",
+  type: "",
 });
 const gptLoading = ref(false);
 
@@ -138,7 +138,6 @@ const surveyDone = () => {
     bank +
     " " +
     type +
-    " 중 가입 방식은 " +
     join +
     ", 기간은 " +
     month +
