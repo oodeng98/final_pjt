@@ -81,7 +81,7 @@
               "
             >
               {{ subscribe.product.fin_prdt_nm }}
-              <span class="text-green">[+{{ subscribe.profit }}원]</span>
+              <span class="text-green">[+{{ parseInt(subscribe.profit) }}원]</span>
             </v-list-item>
           </v-list>
         </v-card-text>
