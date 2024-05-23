@@ -35,7 +35,7 @@ const createArticle = function () {
     <v-form @submit.prevent="createArticle">
       <v-text-field v-model="title" label="제목" outlined></v-text-field>
       <v-textarea v-model="content" label="내용" outlined></v-textarea>
-      <v-btn color="primary" type="submit">게시글 작성</v-btn>
+      <v-btn class="bg-blue-darken-1" type="submit">게시글 작성</v-btn>
     </v-form>
   </v-container>
 </template>

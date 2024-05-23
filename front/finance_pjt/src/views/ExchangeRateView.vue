@@ -14,6 +14,7 @@
         name="country"
         v-model="selectCountry"
         :items="countryNames"
+        class="w-75"
       >
       </v-select>
       <br />
@@ -24,6 +25,7 @@
         v-model="koreaCurrency"
         @input="input2"
         :disabled="selectCountry === null"
+        class="w-75"
       />
       <v-text-field
         variant="outlined"
@@ -32,6 +34,7 @@
         v-model="foreignCurrency"
         @input="input1"
         :disabled="selectCountry === null"
+        class="w-75"
       />
     </v-col>
   </v-container>
