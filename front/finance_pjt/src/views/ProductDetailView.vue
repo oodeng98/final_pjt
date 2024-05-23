@@ -3,7 +3,7 @@
     <div style="display: flex">
       <h2 style="margin-right: 5px" class="mb-3">{{ category }}</h2>
     </div>
-    <v-card :title="product[0]?.kor_co_nm + ' ' + product[0]?.fin_prdt_nm" variant="outlined" class="py-5">
+    <v-card :title="product[0]?.kor_co_nm + ' ' + product[0]?.fin_prdt_nm" variant="outlined" class="py-5 pl-3">
       <v-card-text>
         <div><strong>가입 방법: </strong>{{ product[0]?.join_way }}</div>
         <div>
