@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-container>
     <v-col>
       <span class="text-h4">Map</span>
     </v-col>
@@ -27,7 +27,7 @@
         <p><strong>전화번호</strong> : {{ placeInfo[0].phone }}</p>
       </div>
     </div>
-  </div>
+  </v-container>
 </template>
 
 <script setup>

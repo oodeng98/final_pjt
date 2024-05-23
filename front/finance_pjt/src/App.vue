@@ -57,4 +57,8 @@ const logOut = () => {
   margin: auto;
   font-size: 100px;
 }
+
+.v-container {
+  padding: 3rem;
+}
 </style>

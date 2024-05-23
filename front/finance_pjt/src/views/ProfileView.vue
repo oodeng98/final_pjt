@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-container>
     <v-col>
       <span class="text-h4"
         >{{ info?.nickname ? info.nickname : info.username }}님의 프로필
@@ -83,15 +83,16 @@
               "
             >
               {{ subscribe.product.fin_prdt_nm }}
+              <span class="text-green">[+{{ subscribe.profit }}원]</span>
             </li>
           </ul>
         </v-card-text>
       </v-card>
     </div>
-  </div>
-  <div class="chart">
-    <canvas ref="barChart"></canvas>
-  </div>
+    <div class="chart">
+      <canvas ref="barChart"></canvas>
+    </div>
+  </v-container>
 </template>
 
 <script setup>

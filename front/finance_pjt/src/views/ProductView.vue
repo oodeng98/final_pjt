@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-container>
     <v-select
       label="상품 종류"
       variant="outlined"
@@ -7,7 +7,7 @@
       :items="['정기 예금', '정기 적금']"
     ></v-select>
     <RouterView />
-  </div>
+  </v-container>
 </template>
 
 <script setup>
