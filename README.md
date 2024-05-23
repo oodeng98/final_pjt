@@ -17,7 +17,6 @@
 - 근처 은행 검색 기능 구현
 - 금융 상품 추천 알고리즘 구현
 
-
 최우진
 
 - 로그인 기능 구현
@@ -37,7 +36,8 @@
 
 ## 설계 내용(아키텍처 등) 및 실제 구현 정도
 
-목표 달성도 100%
+- 필수 기능 전부 구현
+- 목표 달성도 100%
 
 ## 데이터베이스 모델링(ERD)
 
@@ -136,14 +136,13 @@ GPT가 주어진 금융 상품 중 사용자 요구에 맞는 최적 상품을 �
 금융 상품 데이터는 금감원 API로 받은 데이터를 전처리하여 준비하였습니다.
 
 사용자가 선택할 수 있는 옵션은 다음과 같습니다.
+
 - 상품 종류 (예금/적금)
 - 은행
 - 예치 기간
 - 가입 방법
 
 챗봇형태로 구현하기보다 옵션을 제시하는 것이 UX 측면에서 간편하다고 생각하였습니다.
-
-
 
 ## 서비스 대표 기능 설명
 
@@ -153,36 +152,23 @@ GPT가 주어진 금융 상품 중 사용자 요구에 맞는 최적 상품을 �
 
 ```html
 <!-- Carousel Section -->
-    <v-carousel show-arrows="hover" :cycle="true" interval="3000">
-      <v-carousel-item
-        src="..."
-        cover
-      >
-      </v-carousel-item>
-      <v-carousel-item
-        src="..."
-        cover
-        @click="router.push({ name: 'community' })"
-      >
-      </v-carousel-item>
-      <v-carousel-item
-        src="..."
-        cover
-        @click="router.push({ name: 'map' })"
-      ></v-carousel-item>
-      <v-carousel-item
-        src="..."
-        cover
-        @click="router.push({ name: 'exchangeRate' })"
-      ></v-carousel-item>
-    </v-carousel>
+<v-carousel show-arrows="hover" :cycle="true" interval="3000">
+  <v-carousel-item src="..." cover> </v-carousel-item>
+  <v-carousel-item src="..." cover @click="router.push({ name: 'community' })">
+  </v-carousel-item>
+  <v-carousel-item
+    src="..."
+    cover
+    @click="router.push({ name: 'map' })"
+  ></v-carousel-item>
+  <v-carousel-item
+    src="..."
+    cover
+    @click="router.push({ name: 'exchangeRate' })"
+  ></v-carousel-item>
+</v-carousel>
 
-    <img
-      src="..."
-      alt="main"
-      style="width: 100%"
-    />
-
+<img src="..." alt="main" style="width: 100%" />
 ```
 
 Vuetify navbar, Carousel 이용
@@ -232,7 +218,7 @@ const logOut = () => {
 ...
 ```
 
-- django 라이브러리에서 제공된 logout 기능을 사용함과 동시에 pinia에 저장된 token과 userInfo 값을 제거하면 logout이 되도록 설정
+- django 라이브러리에서 제공된 logout 기능을 사용함과 동시에 pinia에 저장된 token과 userInfo 값을 제거도록 설정
 
 ### 예적금 금리 비교
 
@@ -420,10 +406,10 @@ def save(request):
 </style>
 ```
 
-- 상품 목록을 편리하게 볼 수 있도록 표를 구현
+- 상품 목록을 편리하게 볼 수 있도록 표로 구현
 - 은행을 선택 시 목록을 필터링 할 수 있는 기능 구현
 - 표에서 특정 상품을 클릭 시 상세 정보를 볼 수 있도록 구현
-  - 클릭할 수 있음을 알려주기 위해 해당 요소에 접근 시 pointer로 cursor를 변경
+  - 클릭할 수 있음을 알려주기 위해 해당 요소에 접근 시 pointer로 cursor 모양을 변경
 
 ### 환율 계산기
 
@@ -434,7 +420,7 @@ def save(request):
     <v-col>
       <p>
         비영업일의 데이터, 혹은 영업당일 11시 이전에는 환율 계산기가 제대로
-        작동하지 않습니다.
+        작동하지 않을 수 있습니다.
       </p>
     </v-col>
     <v-col>
@@ -510,7 +496,6 @@ def save(request):
       return ele.cur_nm === selectCountry.value;
     });
     changeRate = target.kftc_deal_bas_r;
-    console.log(changeRate);
     if (userTarget == "input1") {
       input1();
     } else {
@@ -525,7 +510,6 @@ def save(request):
 
   const input2 = function () {
     foreignCurrency.value = (koreaCurrency.value * changeRate).toFixed(2);
-    console.log(changeRate);
     userTarget = "input2";
   };
 </script>
@@ -1207,9 +1191,9 @@ def gpt(request):
     if request.method == 'GET':
       # 이전 채팅 기록도 활용 할 경우
       # prev_questions = [Question.objects.all().order_by('-created_at')[0].text]
-      prev_questions = [''] 
+      prev_questions = ['']
       query = request.GET.get('query')
-      print(query) 
+      print(query)
       messages = [{
           "role": "user",
           "content": file_content + '위의 상품들 중에 검색을 하고 싶어.'
@@ -1223,7 +1207,7 @@ def gpt(request):
         "role": "user",
         "content": "마크다운 양식 없이 출력해줘."
         })
-      
+
       client = OpenAI(api_key=settings.GPT_KEY)
       completion = client.chat.completions.create(
         model="gpt-4o",
@@ -1233,12 +1217,11 @@ def gpt(request):
       return Response({'response': completion.choices[0].message.content})
 
 ```
+
 - 전처리하여 txt 파일로 저장해둔 금융 데이터를 불러옴
 - 프론트에서 전달한 사용자 입력과 함께 GPT에 전달
   - hallucination 방지를 위해 데이터 제한
 - GPT 대답을 프론트에 반환
-
-
 
 ## 개인별 후기
 
