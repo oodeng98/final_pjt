@@ -119,7 +119,6 @@ const initChart = (data) => {
   const labels = [];
   const profits = [];
   data.forEach((element) => {
-    console.log(element);
     labels.push(element.product.fin_prdt_nm);
     profits.push(element.profit);
   });
