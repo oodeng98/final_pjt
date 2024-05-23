@@ -17,10 +17,10 @@
         </v-btn>
       </v-toolbar-title>
       <v-toolbar-items class="hidden-xs">
-        <v-btn :to="{ name: 'community' }">자유 게시판</v-btn>
-        <v-btn :to="{ name: 'exchangeRate' }">환율 계산기</v-btn>
-        <v-btn :to="{ name: 'products' }">Product</v-btn>
-        <v-btn :to="{ name: 'map' }">Map</v-btn>
+        <v-btn :to="{ name: 'community' }">커뮤니티</v-btn>
+        <v-btn :to="{ name: 'products' }">금융상품</v-btn>
+        <v-btn :to="{ name: 'exchangeRate' }">환율계산기</v-btn>
+        <v-btn :to="{ name: 'map' }">지도</v-btn>
         <template v-if="user">
           <v-btn class="bg-grey-darken-3" @click="logOut">logOut</v-btn>
           <v-btn class="bg-grey-darken-3" :to="{ name: 'profile' }">
