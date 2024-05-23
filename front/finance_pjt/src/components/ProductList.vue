@@ -152,4 +152,8 @@ const initialize = function () {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+tbody > tr {
+  cursor: pointer;
+}
+</style>

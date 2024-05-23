@@ -1,49 +1,54 @@
 <template>
   <div>
-    <h1>
-      {{ info?.nickname ? info.nickname : info.username }}님의 프로필 페이지
-    </h1>
-
+    <v-col>
+      <span class="text-h4"
+        >{{ info?.nickname ? info.nickname : info.username }}님의 프로필
+        페이지</span
+      >
+    </v-col>
     <div class="infoView" v-show="!updateView">
-      <v-card title="기본 정보" variant="outlined">
-        <v-card-text>
-          <p>회원 번호 : {{ info.id }}</p>
-          <p>ID : {{ info.username }}</p>
-          <p>닉네임 : {{ info.nickname }}</p>
-          <p>email : {{ info.email }}</p>
-          <p>first name : {{ info.first_name }}</p>
-          <p>last name : {{ info.last_name }}</p>
-          <br />
-          <p>가입한 상품들</p>
-          <ul>
-            <li
-              v-for="subscribe in subscribes"
-              :key="subscribe.id"
-              @click="
-                router.push({
-                  name: 'detail',
-                  params: { product_id: subscribe.product.id },
-                })
-              "
-            >
-              {{ subscribe.product.fin_prdt_nm }}
-            </li>
-          </ul>
-        </v-card-text>
-        <v-card-actions>
-          <v-btn
-            @click="
-              () => {
-                updateView = !updateView;
-              }
-            "
-            variant="outlined"
-            >정보 수정</v-btn
-          >
-        </v-card-actions>
-      </v-card>
+      <v-table>
+        <tbody>
+          <tr>
+            <td>이름</td>
+            <td>{{ info.first_name }}{{ info.last_name }}</td>
+          </tr>
+          <tr>
+            <td>ID</td>
+            <td>{{ info.username }}</td>
+          </tr>
+          <tr>
+            <td>닉네임</td>
+            <td>{{ info.nickname }}</td>
+          </tr>
+          <tr>
+            <td>email</td>
+            <td>{{ info.email }}</td>
+          </tr>
+          <tr>
+            <td>가입 날짜</td>
+            <td>
+              {{ info.date_joined.slice(0, 10) }}
+              {{ info.date_joined.slice(11, 19) }}
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <v-btn
+                @click="
+                  () => {
+                    updateView = !updateView;
+                  }
+                "
+                variant="outlined"
+                >정보 수정</v-btn
+              >
+            </td>
+          </tr>
+        </tbody>
+      </v-table>
     </div>
-    <div class="changeView" v-show="updateView">
+    <div class="changeView" v-show="updateView" style="margin-bottom: 10px">
       <form @submit.prevent="update">
         <h4>기본 정보 수정</h4>
         <v-text-field label="Email" v-model="email"></v-text-field>
@@ -62,6 +67,26 @@
         >
         <v-btn type="submit" variant="outlined">업데이트</v-btn>
       </form>
+    </div>
+    <div>
+      <v-card title="가입 상품" variant="outlined">
+        <v-card-text>
+          <ul>
+            <li
+              v-for="subscribe in subscribes"
+              :key="subscribe.id"
+              @click="
+                router.push({
+                  name: 'detail',
+                  params: { product_id: subscribe.product.id },
+                })
+              "
+            >
+              {{ subscribe.product.fin_prdt_nm }}
+            </li>
+          </ul>
+        </v-card-text>
+      </v-card>
     </div>
   </div>
   <div class="chart">
@@ -119,7 +144,6 @@ const initChart = (data) => {
   const labels = [];
   const profits = [];
   data.forEach((element) => {
-    console.log(element);
     labels.push(element.product.fin_prdt_nm);
     profits.push(element.profit);
   });
@@ -178,13 +202,8 @@ const update = () => {
 </script>
 
 <style scoped>
-.v-card-text > p {
-  font-size: 18px;
-  padding: 2px;
-}
-
 li {
   margin-left: 40px;
-  font-size: 18px;
+  cursor: pointer;
 }
 </style>
