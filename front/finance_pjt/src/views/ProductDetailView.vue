@@ -20,9 +20,9 @@
         <div><strong>기타 유의사항: </strong>{{ product[0]?.join_member }}</div>
       </v-card-text>
       <v-card-actions>
-        <v-btn v-if="communityStore.token && comment === '가입하기'" variant="outlined" width="70px">
+        <v-btn v-if="communityStore.token && comment === '가입하기'" variant="outlined" width="80px">
           {{ comment }}
-          <v-dialog activator="parent">
+          <v-dialog activator="parent" class="w-50">
             <template v-slot:default="{ isActive }">
               <v-card>
                 <v-card-title class="d-flex justify-space-between align-center">
@@ -35,12 +35,12 @@
 
                 <v-card-text>
                   <div>가입 금액</div>
-                  <v-text-field variant="outlined" v-model="balance" :rules="rules"></v-text-field>
+                  <v-text-field variant="outlined" v-model="balance" :rules="balanceRule" class="w-75"></v-text-field>
                   <div>가입 시점</div>
-                  <v-date-input v-model="createdAt" max-width="368"></v-date-input>
+                  <v-date-input v-model="createdAt" max-width="368" :rules="createdAtRule"></v-date-input>
                   <div>가입 기간</div>
                   <v-radio-group v-model="month">
-                    <v-radio v-for="rate in rates" :label="Object.keys(rate)[0] + '개월'" :value="Object.keys(rate)[0]"></v-radio>
+                    <v-radio v-for="rate in rates" :label="Object.keys(rate) + '개월' + '  (' + Object.values(rate) + '%)'" :value="Object.keys(rate)"></v-radio>
                   </v-radio-group>
                 </v-card-text>
 
@@ -54,7 +54,7 @@
             </template>
           </v-dialog>
         </v-btn>
-        <v-btn v-if="communityStore.token && comment === '해지하기'" @click="subscribe"  variant="outlined" width="70px">
+        <v-btn v-if="communityStore.token && comment === '해지하기'" @click="subscribe"  variant="outlined" width="80px">
           {{ comment }}
         </v-btn>
       </v-card-actions>
@@ -88,12 +88,21 @@ const balance = ref(null);
 const createdAt = ref(null);
 const month = ref(null);
 const rates = ref([]);
-const rules = ref([
+
+const balanceRule = ref([
   (value) => {
     if (parseInt(balance.value)) return true;
     return "정수를 입력하세요.";
   },
 ]);
+
+const createdAtRule = ref([
+  (value) => {
+    if (new Date(createdAt.value).getFullYear() * 12 + new Date(createdAt.value).getMonth() < new Date().getFullYear() * 12 + new Date().getMonth()) return true;
+    if (new Date(createdAt.value).getFullYear() === new Date().getFullYear() && new Date(createdAt.value).getMonth() === new Date().getMonth() && new Date(createdAt.value).getDate() < new Date().getDate()) return true;
+    return "날짜를 다시 입력하세요."
+  }
+])
 
 onMounted(() => {
   product.value = financeStore.deposits.filter(
@@ -146,9 +155,36 @@ onMounted(() => {
 });
 
 const subscribe = function () {
-  let interestRate;
+  if (comment.value === '가입하기') {
+    if (!parseInt(balance.value)) {
+      alert('가입 금액을 확인해주세요.')
+      return
+    }
+
+    if (new Date(createdAt.value).getFullYear() === 1970) {
+      alert('가입 시점을 확인해주세요.')
+      return
+    }
+
+    if (new Date(createdAt.value).getFullYear() * 12 + new Date(createdAt.value).getMonth() > new Date().getFullYear() * 12 + new Date().getMonth()) {
+      alert('가입 시점을 확인해주세요.')
+      return
+    }
+
+    if (new Date(createdAt.value).getFullYear() === new Date().getFullYear() && new Date(createdAt.value).getMonth() === new Date().getMonth() && new Date(createdAt.value).getDate() >= new Date().getDate()) {
+      alert('가입 시점을 확인해주세요.')
+      return
+    }
+
+    if (!(month.value)) {
+      alert('가입 기간을 확인해주세요.')
+      return
+    }
+  }
+
+  let interestRate = 0;
   for (const rate of rates.value) {
-    if (Object.keys(rate)[0] === month.value) {
+    if (Object.keys(rate)[0] == month.value) {
       interestRate = Object.values(rate)[0];
     }
   }

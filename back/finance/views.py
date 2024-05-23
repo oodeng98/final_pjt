@@ -54,7 +54,6 @@ def save(request):
         url=API_URL,
         params=params
       ).json().get('result').get('baseList')
-      print(len(response))
     
       for res in response:
         for month in ('1', '3', '6', '12', '24', '36'):
@@ -153,7 +152,6 @@ def subscribe_list(request):
   if request.method == 'GET':
     subscribes = User_Product.objects.filter(user=request.user)
     serializer = SubscribeSerializer(subscribes, many=True)
-    print(serializer.data)
     return Response(serializer.data, status=status.HTTP_200_OK)
   
 @api_view(['GET'])
