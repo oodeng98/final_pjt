@@ -106,8 +106,8 @@
 
     <!-- Answer Section -->
     <v-card class="pa-5 text-center">
-      <v-card-title class="headline text-h4">당신을 위한 추천</v-card-title>
-      <v-card-text>
+      <v-card-title class="headline text-h4 mb-4">당신을 위한 추천</v-card-title>
+      <v-card-text class="text-subtitle-1">
         <p>{{ answer }}</p>
       </v-card-text>
     </v-card>

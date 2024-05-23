@@ -7,8 +7,9 @@
         :items="props.bankNameProps"
         variant="outlined"
         class="mr-3"
+        density="compact"
       ></v-select>
-      <v-btn variant="outlined" @click="initialize" height="56px">초기화</v-btn>
+      <v-btn variant="outlined" @click="initialize" color="teal-darken-1">초기화</v-btn>
     </div>
 
     <v-data-table>

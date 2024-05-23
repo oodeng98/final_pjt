@@ -1,9 +1,7 @@
 <template>
   <v-container class="d-flex justify-center align-center fill-height">
-    <v-card class="pa-5" min-width="600">
-      <v-card-title class="text-center">
-        <span class="text-h3">회원가입</span>
-      </v-card-title>
+    <v-card class="pa-5 text-center" min-width="600">
+      <img src="../../public/mainlogo.png" alt="logo" style="height: 90px; width: 180px" class="my-5" />
       <v-spacer></v-spacer>
       <v-card-text>
         <v-form @submit.prevent="signUp">
@@ -13,6 +11,9 @@
             label="Username"
             prepend-icon="mdi-account"
             required
+            density="compact"
+            class="my-3"
+            :rules="usernameRule"
           ></v-text-field>
           <v-text-field
             variant="outlined"
@@ -21,6 +22,9 @@
             type="password"
             prepend-icon="mdi-lock"
             required
+            density="compact"
+            class="my-3"
+            :rules="password1Rule"
           ></v-text-field>
           <v-text-field
             variant="outlined"
@@ -29,6 +33,9 @@
             type="password"
             prepend-icon="mdi-lock"
             required
+            density="compact"
+            class="my-3"
+            :rules="password2Rule"
           ></v-text-field>
           <v-text-field
             variant="outlined"
@@ -37,6 +44,8 @@
             type="email"
             prepend-icon="mdi-email"
             required
+            density="compact"
+            class="my-3"
           ></v-text-field>
           <v-text-field
             variant="outlined"
@@ -44,6 +53,8 @@
             label="Nickname"
             prepend-icon="mdi-account-circle"
             required
+            density="compact"
+            class="my-3"
           ></v-text-field>
           <v-text-field
             variant="outlined"
@@ -51,6 +62,8 @@
             label="First Name"
             prepend-icon="mdi-account-box"
             required
+            density="compact"
+            class="my-3"
           ></v-text-field>
           <v-text-field
             variant="outlined"
@@ -58,8 +71,10 @@
             label="Last Name"
             prepend-icon="mdi-account-box-outline"
             required
+            density="compact"
+            class="my-5"
           ></v-text-field>
-          <v-btn color="primary" type="submit" class="mt-4" block>
+          <v-btn color="teal-darken-1" type="submit" block>
             회원가입
           </v-btn>
         </v-form>
@@ -83,6 +98,27 @@ const nickname = ref("");
 
 const store = useCommunityStore();
 const router = useRouter();
+
+const usernameRule = ref([
+  (value) => {
+    if (!username.value.length) return "필수 입력 사항입니다."
+    return true
+  }
+])
+
+const password1Rule = ref([
+  (value) => {
+    if (!password1.value.length) return "필수 입력 사항입니다."
+    return true
+  }
+])
+
+const password2Rule = ref([
+  (value) => {
+    if (!password2.value.length) return "필수 입력 사항입니다."
+    return true
+  }
+])
 
 const signUp = () => {
   const payload = {

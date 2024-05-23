@@ -8,6 +8,7 @@
           justify-content: space-between;
           margin-bottom: 1rem;
         "
+        class="px-5 py-1"
       >
         <div class="text-overline">
           <v-icon icon="mdi-account"></v-icon>
@@ -23,7 +24,7 @@
         <p @click="router.push({ name: 'community' })" class="pointer-cursor">
           목록
         </p>
-        <span style="margin-left: 3px; margin-right: 3px"> | </span>
+        <span style="margin-left: 7px; margin-right: 7px"> | </span>
         <p>댓글({{ article.comment_set.length }})</p>
       </div>
       <div class="text-h4">{{ article.title }}</div>
@@ -36,7 +37,7 @@
       </p>
       <br />
       <p>
-        <v-btn v-if="!hasLiked" class="mr-3" @click="likeArticle"
+        <v-btn v-if="!hasLiked" class="mr-3" @click="likeArticle" color="blue" variant="outlined"
           ><v-icon style="width: 30px">mdi-thumb-up-outline</v-icon>
           {{ likes?.length }}
         </v-btn>
@@ -45,8 +46,8 @@
           {{ likes?.length }}
         </v-btn>
         <span v-if="article.user.id === store.userInfo.id">
-          <v-btn @click="deleteArticle">삭제</v-btn>
-          <v-btn @click="updateArticle">수정</v-btn>
+          <v-btn @click="deleteArticle" color="red" variant="outlined">삭제</v-btn>
+          <v-btn @click="updateArticle" color="teal-darken-1" variant="outlined">수정</v-btn>
         </span>
       </p>
       <v-row class="align-center justify-center" style="height: 100px">
@@ -58,13 +59,14 @@
               type="text"
               id="content"
               v-model="content"
+              density="compact"
             />
           </form>
         </v-col>
         <v-col cols="2">
           <v-row>
             <v-spacer></v-spacer>
-            <v-btn @click="createComment" size="x-large">등록</v-btn>
+            <v-btn @click="createComment" color="teal-darken-1" variant="outlined">등록</v-btn>
           </v-row>
         </v-col>
       </v-row>

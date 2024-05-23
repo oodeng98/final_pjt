@@ -1,9 +1,9 @@
 <template>
   <div>
     <div style="display: flex">
-      <h2 style="margin-right: 5px">{{ category }}</h2>
+      <h2 style="margin-right: 5px" class="mb-3">{{ category }}</h2>
     </div>
-    <v-card :title="product[0]?.kor_co_nm + ' ' + product[0]?.fin_prdt_nm" variant="outlined">
+    <v-card :title="product[0]?.kor_co_nm + ' ' + product[0]?.fin_prdt_nm" variant="outlined" class="py-5">
       <v-card-text>
         <div><strong>가입 방법: </strong>{{ product[0]?.join_way }}</div>
         <div>
@@ -20,7 +20,7 @@
         <div><strong>기타 유의사항: </strong>{{ product[0]?.join_member }}</div>
       </v-card-text>
       <v-card-actions>
-        <v-btn v-if="communityStore.token && comment === '가입하기'" variant="outlined" width="100px" class="bg-blue-darken-1">
+        <v-btn v-if="communityStore.token && comment === '가입하기'" variant="outlined" width="100px" color="teal-darken-1">
           {{ comment }}
           <v-dialog activator="parent" class="w-50">
             <template v-slot:default="{ isActive }">
@@ -35,9 +35,9 @@
 
                 <v-card-text>
                   <div>가입 금액</div>
-                  <v-text-field variant="outlined" v-model="balance" :rules="balanceRule" class="w-75"></v-text-field>
+                  <v-text-field variant="outlined" v-model="balance" :rules="balanceRule" class="w-75" density="compact"></v-text-field>
                   <div>가입 시점</div>
-                  <v-date-input v-model="createdAt" max-width="368" :rules="createdAtRule"></v-date-input>
+                  <v-date-input v-model="createdAt" max-width="368" :rules="createdAtRule" density="compact"></v-date-input>
                   <div>가입 기간</div>
                   <v-radio-group v-model="month">
                     <v-radio v-for="rate in rates" :label="Object.keys(rate) + '개월' + '  (' + Object.values(rate) + '%)'" :value="Object.keys(rate)"></v-radio>
@@ -54,7 +54,7 @@
             </template>
           </v-dialog>
         </v-btn>
-        <v-btn v-if="communityStore.token && comment === '해지하기'" @click="subscribe"  variant="outlined" width="100px" class="bg-red-darken-1">
+        <v-btn v-if="communityStore.token && comment === '해지하기'" @click="subscribe" variant="outlined" width="100px" color="red">
           {{ comment }}
         </v-btn>
       </v-card-actions>

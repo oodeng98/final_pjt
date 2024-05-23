@@ -12,7 +12,7 @@
         </span>
       </p>
       <div style="display: flex">
-        <v-btn v-if="!hasLiked" class="mr-3" @click="likeComment"
+        <v-btn v-if="!hasLiked" class="mr-3" @click="likeComment" color="blue" variant="outlined"
           ><v-icon style="width: 30px">mdi-thumb-up-outline</v-icon>
           {{ likes?.length }}
         </v-btn>
@@ -25,6 +25,7 @@
           v-if="comment.user.id === store.userInfo.id"
           @click="deleteComment"
           style="margin-left: 9px"
+          color="red" variant="outlined"
         >
           삭제
         </v-btn>
