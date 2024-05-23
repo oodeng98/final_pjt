@@ -1,4 +1,4 @@
-# 서비스명
+# 서비스명 : 금쪽이 (금융상품을 쪽집게로 이지하게 관리하세요)
 
 ## 팀원 정보 및 업무 분담 내역
 
@@ -37,7 +37,7 @@
 
 ## 설계 내용(아키텍처 등) 및 실제 구현 정도
 
-Component 설계도 넣고...아키텍처고 나발이고를 쓴 적이 없는데 이게 무슨 개소리야
+목표 달성도 100%
 
 ## 데이터베이스 모델링(ERD)
 
@@ -149,7 +149,47 @@ GPT가 주어진 금융 상품 중 사용자 요구에 맞는 최적 상품을 �
 
 ### 메인 페이지
 
-메인 페이지 완성되면 사진이랑 같이 넣어야 함
+![mainpage](./mainpage.png)
+
+```html
+<!-- Carousel Section -->
+    <v-carousel show-arrows="hover" :cycle="true" interval="3000">
+      <v-carousel-item
+        src="..."
+        cover
+      >
+      </v-carousel-item>
+      <v-carousel-item
+        src="..."
+        cover
+        @click="router.push({ name: 'community' })"
+      >
+      </v-carousel-item>
+      <v-carousel-item
+        src="..."
+        cover
+        @click="router.push({ name: 'map' })"
+      ></v-carousel-item>
+      <v-carousel-item
+        src="..."
+        cover
+        @click="router.push({ name: 'exchangeRate' })"
+      ></v-carousel-item>
+    </v-carousel>
+
+    <img
+      src="..."
+      alt="main"
+      style="width: 100%"
+    />
+
+```
+
+Vuetify navbar, Carousel 이용
+
+주요 기능 설명 이미지 첨부
+
+- Carousel Item 클릭 시 해당 페이지로 이동
 
 ### 회원 커스터마이징
 
