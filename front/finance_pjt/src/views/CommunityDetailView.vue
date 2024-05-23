@@ -2,16 +2,27 @@
   <v-container class="border-double">
     <v-col class="articleDetail" v-if="article">
       <!-- <v-btn class="bg-red" @click="router.go(-1)">뒤로가기</v-btn> -->
-      <div style="display: flex; justify-content: space-between">
-        <div class="text-p">{{ article.user.username }}</div>
-        <p>
+      <v-card
+        style="
+          display: flex;
+          justify-content: space-between;
+          margin-bottom: 1rem;
+        "
+      >
+        <div class="text-overline">
+          <v-icon icon="mdi-account"></v-icon>
+          {{ article.user.username }}
+        </div>
+        <p class="text-overline">
           {{ article.created_at.slice(0, 10) }}
           {{ article.created_at.slice(11, 19) }}
         </p>
-        <p v-if="likes">추천: {{ likes.length }}</p>
-      </div>
+        <p v-if="likes" class="text-overline">추천: {{ likes.length }}</p>
+      </v-card>
       <div style="display: flex; justify-content: end">
-        <p @click="router.push({ name: 'community' })">목록</p>
+        <p @click="router.push({ name: 'community' })" class="pointer-cursor">
+          목록
+        </p>
         <span style="margin-left: 3px; margin-right: 3px"> | </span>
         <p>댓글({{ article.comment_set.length }})</p>
       </div>
@@ -19,18 +30,20 @@
       <div class="content">
         <p>{{ article.content }}</p>
       </div>
-      <p v-if="article.updated_at !== article.created_at">
+      <p class="text-disabled" v-if="article.updated_at !== article.created_at">
         수정일자: {{ article.updated_at.slice(0, 10) }}
         {{ article.updated_at.slice(11, 19) }}
       </p>
       <br />
       <p>
         <v-btn v-if="!hasLiked" class="mr-3" @click="likeArticle"
-          ><v-icon style="width: 30px">mdi-thumb-up-outline</v-icon></v-btn
-        >
+          ><v-icon style="width: 30px">mdi-thumb-up-outline</v-icon>
+          {{ likes?.length }}
+        </v-btn>
         <v-btn v-else color="blue" class="mr-3" @click="likeArticle"
-          ><v-icon style="width: 30px">mdi-thumb-up-outline</v-icon></v-btn
-        >
+          ><v-icon style="width: 30px">mdi-thumb-up-outline</v-icon>
+          {{ likes?.length }}
+        </v-btn>
         <span v-if="article.user.id === store.userInfo.id">
           <v-btn @click="deleteArticle">삭제</v-btn>
           <v-btn @click="updateArticle">수정</v-btn>
@@ -49,7 +62,10 @@
           </form>
         </v-col>
         <v-col cols="2">
-          <v-btn @click="createComment" size="x-large">등록</v-btn>
+          <v-row>
+            <v-spacer></v-spacer>
+            <v-btn @click="createComment" size="x-large">등록</v-btn>
+          </v-row>
         </v-col>
       </v-row>
       <div
@@ -195,4 +211,8 @@ const likeArticle = () => {
   border: 1px solid black;
   border-radius: 3%;
 } */
+
+.pointer-cursor {
+  cursor: pointer;
+}
 </style>

@@ -3,12 +3,13 @@
     <v-card-title>
       <v-layout class="align-center">
         <span class="article-title">
-          {{ article.title }} [{{ article.comment_set.length }}]
+          {{ article.title }}
+          <span class="text-red"> [{{ article.comment_set.length }}] </span>
         </span>
         <v-spacer></v-spacer>
-        <span class="font-weight-light">
+        <span class="font-weight-light text-right">
+          <v-icon style="height: auto">mdi-thumb-up-outline</v-icon>
           {{ article.article_likes_set.length }}
-          <v-icon style="width: 30px">mdi-thumb-up-outline</v-icon>
         </span>
       </v-layout>
     </v-card-title>
