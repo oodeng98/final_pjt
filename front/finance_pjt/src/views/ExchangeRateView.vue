@@ -64,7 +64,8 @@ onMounted(() => {
     },
   })
     .then((res) => {
-      for (const data of res.data) {
+      console.log(res);
+      for (const data of res.data.data) {
         countries.value.push(data);
         countryNames.value.push(data.cur_nm);
       }
