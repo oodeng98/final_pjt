@@ -189,27 +189,3 @@ def gpt(request):
         )
       Question.objects.create(text=query)
       return Response({'response': completion.choices[0].message.content})
-
-#         completion = client.chat.completions.create(
-#             model="gpt-4o",
-#             messages=[
-#                 {
-#                     "role": "user",
-#                     "content": '''
-# 아래 예시를 보고 위 내용을 같은 형식으로 요약해줘
-
-# 제주은행 - J정기예금 (만기지급식)
-# 종류: 적금
-# 가입 방법: 영업점, 인터넷, 스마트폰
-# 우대 조건: 비대면 채널 가입 시 최고 0.5% 우대
-# 가입 대상: 실명의 개인 및 개인사업자
-# 저축 기간: 1, 3, 6, 12, 24, 36개월
-# 저축 금리: 2% (1, 3개월), 3% (6개월 이상)
-# 최고 우대 금리: 3% (6개월 이상)
-
-# ''',
-#                 },
-#             ]
-#         )
-        # print()
-        # return Response({'msg':completion})

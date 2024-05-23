@@ -2,13 +2,11 @@
 
 ## 팀원 정보 및 업무 분담 내역
 
-최우진
+정태완
 
 - 팀장
-- 로그인 기능 구현
-- 금융 상품 추천 알고리즘 구현
-- 근처 은행 검색 기능 구현
-- 커뮤니티 기능 구현
+- 금융 상품 가입하기 기능 구현
+- 환율 계산기 기능 구현
 - 회원 커스터마이징
 
 임광영
@@ -17,12 +15,16 @@
 - 예적금 금리 비교 기능 구현
 - 금융 상품 추천 알고리즘 구현
 - 근처 은행 검색 기능 구현
+- 금융 상품 추천 알고리즘 구현
 
-정태완
 
-- 금융 상품 가입하기 기능 구현
-- 환율 계산기 기능 구현
+최우진
+
+- 로그인 기능 구현
 - 회원 커스터마이징
+- 커뮤니티 기능 구현
+- 금융 상품 추천 알고리즘 구현
+- 근처 은행 검색 기능 구현
 
 공통
 
@@ -127,7 +129,21 @@ User_Product Table
 
 ## 금융 상품 추천 알고리즘 설명
 
-이건 내가 할 수가 없는뎅?누군가 써라
+OpenAI API를 통해 Chat GPT-4o를 이용했습니다.
+
+GPT가 주어진 금융 상품 중 사용자 요구에 맞는 최적 상품을 골라줍니다.
+
+금융 상품 데이터는 금감원 API로 받은 데이터를 전처리하여 준비하였습니다.
+
+사용자가 선택할 수 있는 옵션은 다음과 같습니다.
+- 상품 종류 (예금/적금)
+- 은행
+- 예치 기간
+- 가입 방법
+
+챗봇형태로 구현하기보다 옵션을 제시하는 것이 UX 측면에서 간편하다고 생각하였습니다.
+
+
 
 ## 서비스 대표 기능 설명
 
@@ -1138,14 +1154,68 @@ def save(request):
 
 ### OpenAI API를 활용한 금융 상품 추천 알고리즘
 
-여기도 누군가가 써주겠지~~
+```python
+@api_view(['GET'])
+def gpt(request):
+    try:
+        with open(FILE_PATH, 'r', encoding='utf-8') as f:
+          file_content = f.read()
+        f.close()
+    except UnicodeDecodeError as e:
+        return Response({'error': f'Unicode decode error: {str(e)}'}, status=500)
+
+    if request.method == 'GET':
+      # 이전 채팅 기록도 활용 할 경우
+      # prev_questions = [Question.objects.all().order_by('-created_at')[0].text]
+      prev_questions = [''] 
+      query = request.GET.get('query')
+      print(query) 
+      messages = [{
+          "role": "user",
+          "content": file_content + '위의 상품들 중에 검색을 하고 싶어.'
+          }]
+      for question in prev_questions + [query]:
+        messages.append({
+          "role": "user",
+          "content": question
+        })
+      messages.append({
+        "role": "user",
+        "content": "마크다운 양식 없이 출력해줘."
+        })
+      
+      client = OpenAI(api_key=settings.GPT_KEY)
+      completion = client.chat.completions.create(
+        model="gpt-4o",
+        messages=messages
+        )
+      Question.objects.create(text=query)
+      return Response({'response': completion.choices[0].message.content})
+
+```
+- 전처리하여 txt 파일로 저장해둔 금융 데이터를 불러옴
+- 프론트에서 전달한 사용자 입력과 함께 GPT에 전달
+  - hallucination 방지를 위해 데이터 제한
+- GPT 대답을 프론트에 반환
+
+
 
 ## 개인별 후기
 
-### 최우진
+### 정태완
+
+- 광영아, 우진님 미안해!
+- 중간에 빠지는 경우가 많다보니 진행 과정을 따라가기 어려울 수 있었는데, 기능별로 담당자를 구분하고 각자 진행하면서 진행 상황을 갱신하니 다시 합류해도 진행 상황을 파악하는 것이 원활했다.
+- 사소한 부분이라도 합의를 하고 시작하거나, 업무 진행 중에도 막히는 부분들을 물어보는 것에 거리낌이 없는 분위기였다는 점이 마음에 들었다.
 
 ### 임광영
 
-### 정태완
+- 세 명이라 다행이었다.
+- 가장 말이 많은 팀이었다고 생각하는데, 그게 여러모로 도움이 되었던 것 같다.
+- 기능별로 업무를 분할하니 협업 툴을 자주 사용할 수 밖에 없었는데, 초기 세팅을 다 같이 하고 업무를 분할한 것이 큰 도움이 되었다.
 
-여긴 각자 하나씩 써주시오~
+### 최우진
+
+- 세 명이라 다행이었다.
+- 팀원간 가치관이나, 역량의 차이가 많이 나면 팀 프로젝트를 진행하기 어려웠을 텐데, 다행히 잘 맞아 즐거운 시간이 되었다.
+- 버그를 수정하면서, 스스로 부족한 부분을 알게 되고 보완할 수 있어서 좋았다.
