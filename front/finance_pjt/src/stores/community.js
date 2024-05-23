@@ -63,7 +63,7 @@ export const useCommunityStore = defineStore("community", () => {
     }).catch(err=>console.log(err))
 
     getUserInfo()
-    await router.push({name:'community'})
+    await router.push({name:'home'})
 
   }
 
@@ -78,7 +78,7 @@ export const useCommunityStore = defineStore("community", () => {
     }).then(res=>{
       token.value = res.data.key
       getUserPk()
-      router.push({name:'community'})
+      router.push({name:'home'})
     }).catch(err=> {
       console.log(err)
       alert("로그인에 실패했습니다.");
