@@ -1,23 +1,24 @@
 <template>
   <v-container>
     <!-- Carousel Section -->
-    <v-carousel>
+    <v-carousel show-arrows="hover" :cycle="true" interval="3000">
       <v-carousel-item
-        v-bind="props"
-        :class="{ 'on-hover': isHovering }"
-        src="https://www.ciokorea.com/files/itworld/ITW_202304_01/GettyImages-1273700255.jpg"
+        src="https://pentagonal-fir-043.notion.site/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2F7279217f-4624-488b-944f-2d58ebc80e14%2F045dc35f-772b-470f-8528-2aef614f0a43%2F001.png?table=block&id=15ffe138-2d13-47c9-8e93-c41f116c0e27&spaceId=7279217f-4624-488b-944f-2d58ebc80e14&width=1420&userId=&cache=v2"
         cover
       >
       </v-carousel-item>
       <v-carousel-item
-        v-bind="props"
-        :class="{ 'on-hover': isHovering }"
-        src="https://live.lge.co.kr/wp-content/uploads/2020/06/AI%EC%9A%A9%EC%96%B4%EC%82%AC%EC%A0%84_00.jpg"
+        src="https://pentagonal-fir-043.notion.site/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2F7279217f-4624-488b-944f-2d58ebc80e14%2F1ac0c1f7-23da-47bb-9681-04a5e9df6d53%2F002.png?table=block&id=6460eb50-82d9-4555-9be5-15702a3bc444&spaceId=7279217f-4624-488b-944f-2d58ebc80e14&width=1420&userId=&cache=v2"
         cover
+        @click="router.push({ name: 'community' })"
       >
       </v-carousel-item>
       <v-carousel-item
-        src="https://www.hellot.net/data/photos/20231252/art_17039301013143_a3d6ec.jpg"
+        src="https://pentagonal-fir-043.notion.site/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2F7279217f-4624-488b-944f-2d58ebc80e14%2F80cc71de-39e4-42ee-8589-6b77faee799d%2F003.png?table=block&id=7f6c008a-82e9-4608-b2f8-bfc0fd016d88&spaceId=7279217f-4624-488b-944f-2d58ebc80e14&width=1420&userId=&cache=v2"
+        cover
+      ></v-carousel-item>
+      <v-carousel-item
+        src="https://pentagonal-fir-043.notion.site/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2F7279217f-4624-488b-944f-2d58ebc80e14%2F33d30705-4313-496e-a153-cf454d115bb5%2F004.png?table=block&id=2f948da1-9be8-4c57-b22f-39be787dcdde&spaceId=7279217f-4624-488b-944f-2d58ebc80e14&width=1420&userId=&cache=v2"
         cover
       ></v-carousel-item>
     </v-carousel>
@@ -111,6 +112,7 @@ import axios from "axios";
 import { useFinanceStore } from "@/stores/finance";
 import { useCommunityStore } from "@/stores/community";
 import Dialog from "@/components/Dialog.vue";
+import router from "@/router";
 const financeStore = useFinanceStore();
 const communityStore = useCommunityStore();
 
