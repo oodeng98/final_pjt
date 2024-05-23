@@ -16,10 +16,12 @@
       <v-carousel-item
         src="https://pentagonal-fir-043.notion.site/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2F7279217f-4624-488b-944f-2d58ebc80e14%2F80cc71de-39e4-42ee-8589-6b77faee799d%2F003.png?table=block&id=7f6c008a-82e9-4608-b2f8-bfc0fd016d88&spaceId=7279217f-4624-488b-944f-2d58ebc80e14&width=1420&userId=&cache=v2"
         cover
+        @click="router.push({ name: 'map' })"
       ></v-carousel-item>
       <v-carousel-item
         src="https://pentagonal-fir-043.notion.site/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2F7279217f-4624-488b-944f-2d58ebc80e14%2F33d30705-4313-496e-a153-cf454d115bb5%2F004.png?table=block&id=2f948da1-9be8-4c57-b22f-39be787dcdde&spaceId=7279217f-4624-488b-944f-2d58ebc80e14&width=1420&userId=&cache=v2"
         cover
+        @click="router.push({ name: 'exchangeRate' })"
       ></v-carousel-item>
     </v-carousel>
 
