@@ -43,7 +43,7 @@
       <v-card-text>
         <v-btn-toggle
           v-model="preference.type"
-          color="deep-purple-accent-3"
+          color="deep-purple-accent-2"
           rounded="0"
           group
         >
@@ -54,7 +54,7 @@
         <br />
         <v-btn-toggle
           v-model="preference.bank"
-          color="deep-purple-accent-3"
+          color="deep-purple-accent-2"
           rounded="0"
           group
         >
@@ -67,7 +67,7 @@
         <br />
         <v-btn-toggle
           v-model="preference.month"
-          color="deep-purple-accent-3"
+          color="deep-purple-accent-2"
           rounded="0"
           group
         >
@@ -81,7 +81,7 @@
         <br />
         <v-btn-toggle
           v-model="preference.join"
-          color="deep-purple-accent-3"
+          color="deep-purple-accent-2"
           rounded="0"
           group
         >
@@ -95,7 +95,7 @@
         <v-btn
           @click="surveyDone"
           :loading="gptLoading"
-          color="deep-purple-accent-3"
+          color="deep-purple-accent-2"
           class="mx-auto border pa-3"
           size="x-large"
         >

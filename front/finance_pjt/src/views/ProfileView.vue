@@ -7,7 +7,7 @@
       >
     </v-col>
     <div class="infoView" v-show="!updateView">
-      <v-table>
+      <v-table class="text-subtitle-1">
         <tbody>
           <tr>
             <td>이름</td>
@@ -32,8 +32,6 @@
               {{ info.date_joined.slice(11, 19) }}
             </td>
           </tr>
-          <tr>
-            <td>
               <v-btn
                 @click="
                   () => {
@@ -41,16 +39,15 @@
                   }
                 "
                 variant="outlined"
+                class="mt-5"
                 >정보 수정</v-btn
               >
-            </td>
-          </tr>
         </tbody>
       </v-table>
     </div>
     <div class="changeView" v-show="updateView" style="margin-bottom: 10px">
       <form @submit.prevent="update">
-        <h4>기본 정보 수정</h4>
+        <div class="text-h6 my-3">기본 정보 수정</div>
         <v-text-field label="Email" v-model="email"></v-text-field>
         <v-text-field label="First Name" v-model="first_name"></v-text-field>
         <v-text-field label="Last Name" v-model="last_name"></v-text-field>
@@ -69,10 +66,10 @@
       </form>
     </div>
     <div>
-      <v-card title="가입 상품" variant="outlined">
-        <v-card-text>
-          <ul>
-            <li
+      <v-card title="가입 상품" variant="outlined" class="mt-16 mb-5">
+        <v-card-text class="text-subtitle-1">
+          <v-list>
+            <v-list-item
               v-for="subscribe in subscribes"
               :key="subscribe.id"
               @click="
@@ -84,8 +81,8 @@
             >
               {{ subscribe.product.fin_prdt_nm }}
               <span class="text-green">[+{{ subscribe.profit }}원]</span>
-            </li>
-          </ul>
+            </v-list-item>
+          </v-list>
         </v-card-text>
       </v-card>
     </div>
@@ -158,12 +155,12 @@ const initChart = (data) => {
         {
           label: "수익 (대한민국 원)",
           backgroundColor: [
-            "#3e95cd",
-            "#8e5ea2",
-            "#3cba9f",
-            "#e8c3b9",
-            "#c45850",
+            "#bbdefb",
+            "#ffcdd2",
+            "#c8e6c9",
+            "#fff9c4",
           ],
+          barThickness: 100,
           data: profits,
         },
       ],

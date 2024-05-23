@@ -6,6 +6,7 @@
         v-model="bankName"
         :items="props.bankNameProps"
         variant="outlined"
+        class="mr-3"
       ></v-select>
       <v-btn variant="outlined" @click="initialize" height="56px">초기화</v-btn>
     </div>

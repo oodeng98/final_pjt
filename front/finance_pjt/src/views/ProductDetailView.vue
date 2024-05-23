@@ -20,7 +20,7 @@
         <div><strong>기타 유의사항: </strong>{{ product[0]?.join_member }}</div>
       </v-card-text>
       <v-card-actions>
-        <v-btn v-if="communityStore.token && comment === '가입하기'" variant="outlined" width="80px">
+        <v-btn v-if="communityStore.token && comment === '가입하기'" variant="outlined" width="100px" class="bg-blue-darken-1">
           {{ comment }}
           <v-dialog activator="parent" class="w-50">
             <template v-slot:default="{ isActive }">
@@ -54,7 +54,7 @@
             </template>
           </v-dialog>
         </v-btn>
-        <v-btn v-if="communityStore.token && comment === '해지하기'" @click="subscribe"  variant="outlined" width="80px">
+        <v-btn v-if="communityStore.token && comment === '해지하기'" @click="subscribe"  variant="outlined" width="100px" class="bg-red-darken-1">
           {{ comment }}
         </v-btn>
       </v-card-actions>
