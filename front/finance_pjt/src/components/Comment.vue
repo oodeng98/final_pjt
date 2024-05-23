@@ -2,17 +2,25 @@
   <div class="commentDetail">
     <div style="display: flex; justify-content: space-between">
       <p>
-        {{ comment.user.username }} ({{ comment.created_at.slice(0, 10) }}
-        {{ comment.created_at.slice(11, 19) }})
+        <v-icon icon="mdi-account"></v-icon>
+        <span class="font-weight-bold">
+          {{ comment.user.username }}
+        </span>
+        <span class="text-disabled">
+          ({{ comment.created_at.slice(0, 10) }}
+          {{ comment.created_at.slice(11, 19) }})
+        </span>
       </p>
       <div style="display: flex">
         <v-btn v-if="!hasLiked" class="mr-3" @click="likeComment"
-          ><v-icon style="width: 30px">mdi-thumb-up-outline</v-icon></v-btn
-        >
+          ><v-icon style="width: 30px">mdi-thumb-up-outline</v-icon>
+          {{ likes?.length }}
+        </v-btn>
         <v-btn v-else color="blue" class="mr-3" @click="likeComment"
-          ><v-icon style="width: 30px">mdi-thumb-up-outline</v-icon></v-btn
-        >
-        <p v-if="likes">추천 : {{ likes.length }}</p>
+          ><v-icon style="width: 30px">mdi-thumb-up-outline</v-icon>
+          {{ likes?.length }}
+        </v-btn>
+        <!-- <p v-if="likes">추천 : {{ likes.length }}</p> -->
         <v-btn
           v-if="comment.user.id === store.userInfo.id"
           @click="deleteComment"

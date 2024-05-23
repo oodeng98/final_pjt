@@ -3,13 +3,19 @@
     <!-- Carousel Section -->
     <v-carousel>
       <v-carousel-item
+        v-bind="props"
+        :class="{ 'on-hover': isHovering }"
         src="https://www.ciokorea.com/files/itworld/ITW_202304_01/GettyImages-1273700255.jpg"
         cover
-      ></v-carousel-item>
+      >
+      </v-carousel-item>
       <v-carousel-item
+        v-bind="props"
+        :class="{ 'on-hover': isHovering }"
         src="https://live.lge.co.kr/wp-content/uploads/2020/06/AI%EC%9A%A9%EC%96%B4%EC%82%AC%EC%A0%84_00.jpg"
         cover
-      ></v-carousel-item>
+      >
+      </v-carousel-item>
       <v-carousel-item
         src="https://www.hellot.net/data/photos/20231252/art_17039301013143_a3d6ec.jpg"
         cover
@@ -158,5 +164,9 @@ const queryGPT = function () {
 <style scoped>
 .container {
   margin-top: 20px;
+}
+
+.on-hover {
+  opacity: 0.6;
 }
 </style>
