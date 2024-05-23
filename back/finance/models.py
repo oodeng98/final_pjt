@@ -23,7 +23,7 @@ class Product(models.Model):
   fin_prdt_nm = models.TextField()  # 금융 상품명
   join_way = models.TextField()  # 가입 방법
   spcl_cnd = models.TextField()  # 우대조건
-  join_deny = models.TextField()  # 가입제한가입제한 - 1: 제한없음, 2: 서민전용, 3: 일부제한
+  join_deny = models.TextField()  # 가입제한 - 1: 제한없음, 2: 서민전용, 3: 일부제한
   join_member = models.TextField()  # 가입대상
   etc_note = models.TextField()  # 기타 유의사항
   
