@@ -15,10 +15,10 @@
         </v-btn>
         <v-btn :to="{ name: 'profile' }" v-if="user" class="toolbar-text">
           <span v-if="user?.nickname" @click="router.push({ name: 'profile' })">
-            안녕하세요, {{ user.nickname }}님
+            {{ user.nickname }}님, 안녕하세요
           </span>
           <span v-else-if="user" @click="router.push({ name: 'profile' })">
-            안녕하세요, {{ user.username }}님
+            {{ user.username }}님, 안녕하세요
           </span>
         </v-btn>
       </v-toolbar-title>

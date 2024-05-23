@@ -5,6 +5,7 @@
       variant="outlined"
       v-model="bankType"
       :items="['정기 예금', '정기 적금']"
+      density="compact"
     ></v-select>
     <RouterView />
   </v-container>

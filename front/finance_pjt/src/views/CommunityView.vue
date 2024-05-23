@@ -6,7 +6,7 @@
       </v-col>
       <v-spacer></v-spacer>
       <v-col class="text-right">
-        <v-btn @click="communityCreate" class="bg-blue-darken-1">게시글 작성</v-btn>
+        <v-btn @click="communityCreate" color="teal-darken-1" variant="outlined">게시글 작성</v-btn>
       </v-col>
     </v-row>
     <v-row>
