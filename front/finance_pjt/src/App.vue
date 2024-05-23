@@ -2,10 +2,19 @@
   <v-app>
     <v-toolbar app class="bg-grey-darken-1">
       <v-toolbar-title>
-        <v-btn icon>
-          <v-icon @click="router.push({ name: 'home' })"
+        <v-btn
+          icon
+          @click="router.push({ name: 'home' })"
+          style="height: 50px; width: 100px"
+        >
+          <!-- <v-icon 
             >mdi-home-variant</v-icon
-          >
+          > -->
+          <img
+            src="../public/mainlogo.png"
+            alt="logo"
+            style="height: 50px; width: 100px"
+          />
         </v-btn>
         <v-btn :to="{ name: 'profile' }" v-if="user">
           <span v-if="user?.nickname" @click="router.push({ name: 'profile' })">
@@ -60,5 +69,6 @@ const logOut = () => {
 
 .v-container {
   padding: 3rem;
+  max-width: 1200px;
 }
 </style>

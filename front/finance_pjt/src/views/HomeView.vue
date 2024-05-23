@@ -25,14 +25,20 @@
       ></v-carousel-item>
     </v-carousel>
 
+    <img
+      src="https://pentagonal-fir-043.notion.site/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2F7279217f-4624-488b-944f-2d58ebc80e14%2F4e84bb8a-5932-468d-8049-833cec7078d2%2Fmain_(1).png?table=block&id=79fdf54d-4c73-4e48-8312-25f3bebe15ca&spaceId=7279217f-4624-488b-944f-2d58ebc80e14&width=2000&userId=&cache=v2"
+      alt="main"
+      style="width: 100%"
+    />
+
     <!-- Recommendation Section -->
-    <div class="text-h3 text-center">
+    <div class="text-h3 text-center text-decoration-overline">
       <br />
-      최고의 금융 AI 추천 서비스를 체험하세요
+      AI에게 물어보세요!
     </div>
     <v-card class="pa-5 my-5 text-center">
       <v-card-title class="headline text-h4"
-        >필요한 상품을 알려주세요</v-card-title
+        >필요한 상품을 알려주세요.</v-card-title
       >
       <v-card-text>
         <v-btn-toggle
@@ -100,7 +106,7 @@
 
     <!-- Answer Section -->
     <v-card class="pa-5 text-center">
-      <v-card-title class="headline text-h4">당신을 위한 상품은~?</v-card-title>
+      <v-card-title class="headline text-h4">당신을 위한 추천</v-card-title>
       <v-card-text>
         <p>{{ answer }}</p>
       </v-card-text>
@@ -127,7 +133,7 @@ const preference = ref({
 const gptLoading = ref(false);
 
 const query = ref("");
-const answer = ref("추천받기를 눌러보세요");
+const answer = ref("추천받기를 눌러 확인하세요.");
 
 const conversation = ref([]);
 
