@@ -40,6 +40,7 @@
                 "
                 variant="outlined"
                 class="mt-5"
+                color="teal-darken-1"
                 >정보 수정</v-btn
               >
         </tbody>
@@ -62,7 +63,7 @@
           style="margin-right: 4px"
           >돌아가기</v-btn
         >
-        <v-btn type="submit" variant="outlined">업데이트</v-btn>
+        <v-btn type="submit" variant="outlined" color="teal-darken-1">업데이트</v-btn>
       </form>
     </div>
     <div>

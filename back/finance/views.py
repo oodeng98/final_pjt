@@ -179,7 +179,7 @@ def gpt(request):
         })
       messages.append({
         "role": "user",
-        "content": "마크다운 양식 없이 출력해줘."
+        "content": "마크다운 양식 없이 출력하고, 간략하게 요약해줘."
         })
       
       client = OpenAI(api_key=settings.GPT_KEY)
